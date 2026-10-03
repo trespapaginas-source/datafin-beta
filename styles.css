@@ -80,6 +80,7 @@ h1, h2, h3, p, figure, blockquote { margin: 0; }
 .nav__in { height: 100%; display: flex; align-items: center; gap: 28px; }
 .logo { font-size: 1.45rem; font-weight: 800; letter-spacing: -.04em; line-height: 1; }
 .logo { display: inline-block; }
+.logo img { display: block; height: .8em; width: auto; }
 .logo b { display: block; margin-top: .12em; text-align: right; font-size: .4em; font-weight: 800; letter-spacing: 0; line-height: 1; background: var(--grad-dark); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .nav__links { display: flex; align-items: center; gap: 30px; margin-inline: auto; font-size: .93rem; font-weight: 600; }
 .nav__links a { color: rgba(255, 255, 255, .82); transition: color .2s; position: relative; }
@@ -397,6 +398,7 @@ h1, h2 { text-wrap: balance; }
 .wa-float:focus-visible { outline: 3px solid #fff; outline-offset: 2px; box-shadow: 0 0 0 6px #25D366; }
 @media (max-width: 760px) {
   .wa-float { right: 16px; bottom: 16px; width: 58px; padding: 0; justify-content: center; }
+  .footer { padding-bottom: 72px; }
   .wa-float__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 }
 
