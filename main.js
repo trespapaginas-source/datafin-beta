@@ -14,6 +14,7 @@
     contacto: 'Hola, quiero contactar al equipo de Datafin Beta.',
   };
 
+  const track = (n, p) => { if (window.datafinTrack) window.datafinTrack(n, p); };
   const $ = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => [...c.querySelectorAll(s)];
 
@@ -88,7 +89,7 @@
   const INTENTS = {
     caso: {
       kicker: 'Asesoría sin costo', title: 'Cuéntanos tu caso',
-      lead: 'Un asesor te contactará en menos de 24 horas. Tu información es 100 % confidencial.',
+      lead: 'Un asesor te contactará en menos de 24 horas. Tu información es confidencial.',
       submit: 'Consultar mi caso', doneTitle: '¡Recibimos tu caso!',
       doneText: 'Un asesor revisará tu situación y te contactará en menos de 24 horas.',
     },
@@ -129,6 +130,7 @@
     const svc = intent === 'servicio' ? service : '';
     const txt = (v) => (typeof v === 'function' ? v(svc) : v);
     current = { intent, service: svc };
+    track('form_open', { intent });
 
     el.kicker.textContent = cfg.kicker;
     el.title.textContent = txt(cfg.title);
@@ -150,6 +152,7 @@
       e.preventDefault();
       const base = WHATSAPP_TEXTS[wa.dataset.intent] || WHATSAPP_TEXTS.caso;
       const text = base.replace('{servicio}', wa.dataset.service || '');
+      track('whatsapp_click', { origen: wa.dataset.intent || 'boton' });
       window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
       return;
     }
@@ -175,9 +178,77 @@
     const payload = { nombre, celular, servicio: form.servicio.value, origen: current.intent, fecha: new Date().toISOString() };
     console.info('[Datafin] solicitud (pendiente de conectar):', payload);
 
+    track('lead', { origen: 'formulario', intent: current.intent });
     wrap.hidden = true; done.hidden = false;
     form.reset();
   });
+
+  // Chat flotante estilo WhatsApp: el cliente escribe su pregunta y se envía a WhatsApp ------
+  const waToggle = $('#waToggle');
+  const waPanel = $('#waPanel');
+  if (waToggle && waPanel) {
+    const waLog = $('#waLog');
+    const waForm = $('#waForm');
+    const waText = $('#waText');
+    const waSend = $('#waSend');
+    const hora = () => new Date().toLocaleTimeString('es-CO', { hour: 'numeric', minute: '2-digit', hour12: true });
+    $$('.wa-msg--in time', waLog).forEach((t) => { t.textContent = hora(); });
+
+    const setChat = (open) => {
+      waPanel.hidden = !open;
+      waToggle.setAttribute('aria-expanded', String(open));
+      waToggle.setAttribute('aria-label', open ? 'Cerrar chat de WhatsApp' : 'Abrir chat de WhatsApp');
+      if (open) { track('chat_open'); setTimeout(() => waText.focus({ preventScroll: true }), 80); }
+    };
+    const scrollEnd = () => { waLog.scrollTop = waLog.scrollHeight; };
+    const grow = () => {
+      waText.style.height = 'auto';
+      waText.style.height = Math.min(waText.scrollHeight, 120) + 'px';
+      waSend.disabled = waText.value.trim() === '';
+    };
+    const addMsg = (cls, html) => {
+      const m = document.createElement('div');
+      m.className = `wa-msg ${cls} wa-msg--new`;
+      m.innerHTML = html;
+      waLog.appendChild(m);
+      scrollEnd();
+      return m;
+    };
+    const esc = (s) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+    waToggle.addEventListener('click', () => setChat(waPanel.hidden));
+    $('#waClose').addEventListener('click', () => { setChat(false); waToggle.focus(); });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !waPanel.hidden && !dialog.open) { setChat(false); waToggle.focus(); }
+    });
+
+    $$('.wa-chips button', waLog).forEach((b) => b.addEventListener('click', () => {
+      waText.value = b.dataset.q;
+      grow();
+      waText.focus();
+      waText.setSelectionRange(waText.value.length, waText.value.length);
+    }));
+
+    waText.addEventListener('input', grow);
+    waText.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); if (!waSend.disabled) waForm.requestSubmit(); }
+    });
+
+    waForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const pregunta = waText.value.trim();
+      if (!pregunta) return;
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(pregunta)}`;
+      addMsg('wa-msg--out', `<p>${esc(pregunta)}</p><time>${hora()} <svg class="ico ico--flat" aria-hidden="true"><use href="#i-checks"/></svg></time>`);
+      waText.value = '';
+      grow();
+      track('whatsapp_click', { origen: 'chat_flotante' });
+      window.open(url, '_blank', 'noopener');
+      setTimeout(() => {
+        addMsg('wa-msg--in', `<p>¡Listo! Abrimos WhatsApp con tu pregunta. Pulsa <strong>Enviar</strong> allí y un asesor te responderá. ¿No se abrió? <a href="${url}" target="_blank" rel="noopener">Toca aquí</a>.</p><time>${hora()}</time>`);
+      }, 450);
+    });
+  }
 
   function showError(msg) { err.textContent = msg; err.hidden = false; }
 })();
