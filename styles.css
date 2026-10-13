@@ -263,7 +263,7 @@ h1, h2 { text-wrap: balance; }
 .modal .muted { margin-top: 8px; font-size: .95rem; }
 .modal form#caseForm { display: grid; gap: 16px; margin-top: 24px; }
 .modal label { display: grid; gap: 6px; font-size: .86rem; font-weight: 700; }
-.modal input[type=text], .modal input[type=tel], .modal select { width: 100%; padding: 14px 16px; font: inherit; font-weight: 500; color: var(--ink); background: var(--surface); border: 1.5px solid var(--line); border-radius: var(--r-sm); transition: border-color .2s, box-shadow .2s; }
+.modal input[type=text], .modal input[type=tel], .modal input[type=password], .modal select { width: 100%; padding: 14px 16px; font: inherit; font-weight: 500; color: var(--ink); background: var(--surface); border: 1.5px solid var(--line); border-radius: var(--r-sm); transition: border-color .2s, box-shadow .2s; }
 .modal input:focus, .modal select:focus { outline: 0; border-color: var(--purple); box-shadow: 0 0 0 4px rgba(109, 40, 255, .14); }
 .modal .check { display: flex; align-items: flex-start; gap: 10px; font-weight: 500; font-size: .84rem; color: var(--muted); line-height: 1.45; }
 .modal .check input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--purple); flex: none; }
@@ -598,3 +598,37 @@ h1, h2 { text-wrap: balance; }
   .about__facts { grid-template-columns: 1fr; }
   .cookie { left: 12px; right: 12px; bottom: 84px; width: auto; }
 }
+
+/* ---------- Consultar mi caso (estado del proceso) ---------- */
+.modal__help { margin: -4px 0 0; font-size: .86rem; line-height: 1.5; color: var(--muted); }
+.modal__demo { margin: 0; padding: 10px 14px; font-size: .84rem; line-height: 1.45; color: #5B3BB5; background: #F3EEFF; border-radius: 12px; }
+.modal__foot { margin: 20px 0 0; padding-top: 18px; border-top: 1px solid var(--line); font-size: .9rem; color: var(--muted); }
+.modal__foot a, .modal__legal a { color: var(--purple); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.modal__legal { margin: 10px 0 0; font-size: .78rem; line-height: 1.5; color: var(--muted); }
+.field-code { position: relative; display: block; }
+.field-code input { padding-right: 92px !important; letter-spacing: .18em; font-weight: 700; text-transform: uppercase; }
+.field-code input::placeholder { letter-spacing: 0; font-weight: 500; text-transform: none; }
+.field-code__toggle { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); padding: 8px 12px; border: 0; border-radius: 10px; font: inherit; font-size: .82rem; font-weight: 700; color: var(--purple); background: #F1EAFF; }
+.field-code__toggle:hover { background: #E6DAFF; }
+#caseForm input[name=proceso] { text-transform: uppercase; font-weight: 700; letter-spacing: .04em; }
+#caseForm input[name=proceso]::placeholder { font-weight: 500; letter-spacing: 0; }
+.modal__body--result { max-height: calc(100dvh - 48px); overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; }
+.modal__body--result h2 { margin-top: 4px; }
+.proc__demo { margin-top: 14px; padding: 10px 14px; font-size: .84rem; line-height: 1.45; font-weight: 600; color: #7A4B00; background: #FFF4DF; border-radius: 12px; }
+.procs { display: grid; gap: 14px; margin-top: 22px; }
+.proc { padding: 20px 20px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); }
+.proc__head { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.proc__id { padding: 4px 12px; border-radius: 999px; font-size: .78rem; font-weight: 800; letter-spacing: .06em; color: #fff; background: var(--grad-btn); }
+.proc__tipo { font-size: .86rem; font-weight: 600; color: var(--muted); }
+.proc__etapa { margin: 12px 0 0 !important; font-size: 1.3rem; line-height: 1.2; font-weight: 800; letter-spacing: -.02em; }
+.proc__bar { display: flex; gap: 5px; margin-top: 14px; }
+.proc__bar i { flex: 1; height: 7px; border-radius: 999px; background: #E3DDF3; }
+.proc__bar i.done { background: var(--purple); }
+.proc__bar i.now { background: var(--grad); box-shadow: 0 0 0 3px rgba(217, 70, 239, .18); }
+.proc__count { margin: 8px 0 0 !important; font-size: .78rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.proc__desc { margin: 12px 0 0 !important; font-size: .96rem; line-height: 1.5; color: #2d2950; }
+.proc__data { display: grid; gap: 10px; margin: 14px 0 0; padding-top: 14px; border-top: 1px solid var(--line); }
+.proc__data dt { font-size: .74rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.proc__data dd { margin: 2px 0 0; font-size: .94rem; font-weight: 600; }
+.modal__actions { display: grid; gap: 10px; margin-top: 20px; }
+.modal__actions .btn { width: 100%; white-space: normal; text-align: center; }

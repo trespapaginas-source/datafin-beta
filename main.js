@@ -3,16 +3,10 @@
   'use strict';
 
   // Configuración -----------------------------------------------------------
-  // Número de WhatsApp en formato internacional sin "+". Si queda vacío, el botón abre el formulario.
+  // Número de WhatsApp en formato internacional sin "+".
   const WHATSAPP_NUMBER = '573127045885';
-  // Mensaje prellenado según el llamado a la acción (data-intent); {servicio} se reemplaza si aplica.
-  const WHATSAPP_TEXTS = {
-    caso: 'Hola, quiero consultar mi caso en Datafin Beta.',
-    asesor: 'Hola, quiero hablar con un asesor de Datafin Beta.',
-    orientacion: 'Hola, no sé qué servicio necesito. ¿Me pueden orientar?',
-    servicio: 'Hola, me interesa el servicio: {servicio}.',
-    contacto: 'Hola, quiero contactar al equipo de Datafin Beta.',
-  };
+  // Servicio que responde con el estado del proceso (se define en index.html). Vacío = en preparación.
+  const PROCESO_API = (window.DATAFIN_PROCESO_API || '').trim();
 
   const track = (n, p) => { if (window.datafinTrack) window.datafinTrack(n, p); };
   const $ = (s, c = document) => c.querySelector(s);
@@ -77,110 +71,184 @@
     });
   });
 
-  // Formulario "Consultar mi caso" ------------------------------------------
+  // Consultar mi caso: estado del proceso (número de proceso + código de seguridad) ------
   const dialog = $('#caseDialog');
   const form = $('#caseForm');
   const err = $('#caseError');
-  const select = $('#caseService');
   const wrap = $('#caseFormWrap');
-  const done = $('#caseDone');
+  const result = $('#caseResult');
+  const submitBtn = $('#caseSubmit');
+  const codeToggle = $('#codeToggle');
+  const waLink = (texto) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(texto)}`;
 
-  // Textos del formulario según el llamado a la acción que lo abre (data-intent)
-  const INTENTS = {
-    caso: {
-      kicker: 'Asesoría sin costo', title: 'Cuéntanos tu caso',
-      lead: 'Un asesor te contactará en menos de 24 horas. Tu información es confidencial.',
-      submit: 'Consultar mi caso', doneTitle: '¡Recibimos tu caso!',
-      doneText: 'Un asesor revisará tu situación y te contactará en menos de 24 horas.',
-    },
-    asesor: {
-      kicker: 'Habla con un asesor', title: 'Hablemos de tu caso',
-      lead: 'Déjanos tus datos y un asesor te escribirá o llamará para resolver tus dudas.',
-      submit: 'Quiero hablar con un asesor', doneTitle: '¡Listo, te contactaremos!',
-      doneText: 'Un asesor se comunicará contigo muy pronto para atender tus dudas.',
-    },
-    orientacion: {
-      kicker: 'Asesoría sin costo', title: 'Te ayudamos a elegir',
-      lead: 'Cuéntanos tu situación y un asesor te orientará sobre el servicio que más te conviene, sin compromiso.',
-      submit: 'Quiero orientación', doneTitle: '¡Recibimos tu solicitud!',
-      doneText: 'Un asesor te contactará para orientarte sobre el servicio ideal para ti.',
-    },
-    servicio: {
-      kicker: 'Servicio seleccionado', title: (s) => s,
-      lead: 'Déjanos tus datos y un asesor te contactará en menos de 24 horas para ayudarte con este servicio.',
-      submit: 'Solicitar este servicio', doneTitle: '¡Recibimos tu solicitud!',
-      doneText: (s) => `Un asesor te contactará pronto para ayudarte con: ${s}.`,
-    },
-    contacto: {
-      kicker: 'Contacto', title: 'Escríbenos',
-      lead: 'Déjanos tus datos y el equipo de Datafin Beta se pondrá en contacto contigo.',
-      submit: 'Quiero que me contacten', doneTitle: '¡Gracias por escribirnos!',
-      doneText: 'Nos pondremos en contacto contigo muy pronto.',
+  // Ejemplo para revisar el diseño mientras no haya servicio conectado (no son datos reales)
+  const DEMO = {
+    proceso: 'DF-2026-00000', codigo: 'DEMO00',
+    respuesta: {
+      ok: true, demo: true, nombre: 'Jhon',
+      procesos: [
+        { consecutivo: 'DF-2026-00000', tipo: 'Castigo de permanencia', etapa: 'Tutela', subestado: 'Admitida',
+          descripcion: 'El juzgado ya tiene tu solicitud. Estamos esperando sus siguientes actuaciones.',
+          proximoPaso: 'Esperar la decisión del juzgado', actualizado: '2026-09-29',
+          etapas: ['Petición', 'Verificación', 'Desacato', 'Tutela', 'Impugnación', 'Revisión SIC', 'Cerrado'], etapaIndex: 3 },
+        { consecutivo: 'DF-2026-00001', tipo: 'Reporte negativo', etapa: 'Petición', subestado: 'Radicada',
+          descripcion: 'Presentamos tu solicitud ante la entidad y esperamos su respuesta.',
+          proximoPaso: 'Esperar la respuesta de la entidad', actualizado: '2026-10-02',
+          etapas: ['Petición', 'Verificación', 'Desacato', 'Tutela', 'Impugnación', 'Revisión SIC', 'Cerrado'], etapaIndex: 0 },
+      ],
     },
   };
-  const el = {
-    kicker: $('#caseKicker'), title: $('#caseTitle'), lead: $('#caseLead'), submit: $('#caseSubmit'),
-    doneTitle: $('#caseDoneTitle'), doneText: $('#caseDoneText'),
+
+  if (!PROCESO_API) {
+    const aviso = nodo('p', 'modal__demo');
+    aviso.append('Vista previa: para ver un ejemplo usa ', nodo('strong', '', 'DF-2026-00000'), ' y el código ', nodo('strong', '', 'DEMO00'), '.');
+    $('.modal__help', form).after(aviso);
+  }
+
+  let intentos = 0;
+  let bloqueoHasta = 0;
+
+  const showForm = () => {
+    result.hidden = true; wrap.hidden = false; err.hidden = true;
+    form.reset();
+    setCodeVisible(false);
   };
-  const DEFAULT_SERVICE = select.options[0].value;
-  let current = { intent: 'caso', service: '' };
-
-  const openForm = (intent = 'caso', service = '') => {
-    const cfg = INTENTS[intent] || INTENTS.caso;
-    const svc = intent === 'servicio' ? service : '';
-    const txt = (v) => (typeof v === 'function' ? v(svc) : v);
-    current = { intent, service: svc };
-    track('form_open', { intent });
-
-    el.kicker.textContent = cfg.kicker;
-    el.title.textContent = txt(cfg.title);
-    el.lead.textContent = cfg.lead;
-    el.submit.textContent = cfg.submit;
-    el.doneTitle.textContent = cfg.doneTitle;
-    el.doneText.textContent = txt(cfg.doneText);
-
-    wrap.hidden = false; done.hidden = true; err.hidden = true;
-    const opt = svc && [...select.options].find((o) => o.value === svc || o.textContent === svc);
-    select.value = opt ? opt.value : DEFAULT_SERVICE;
+  const openForm = () => {
+    track('consulta_proceso_abrir');
+    showForm();
     if (typeof dialog.showModal === 'function') dialog.showModal(); else dialog.setAttribute('open', '');
-    setTimeout(() => form.nombre.focus(), 60);
+    setTimeout(() => form.proceso.focus(), 60);
   };
+  function setCodeVisible(v) {
+    form.codigo.type = v ? 'text' : 'password';
+    codeToggle.textContent = v ? 'Ocultar' : 'Mostrar';
+    codeToggle.setAttribute('aria-pressed', String(v));
+  }
+  function showError(msg) { err.textContent = msg; err.hidden = false; }
+
+  // "130", "df2026130" o "DF-2026-00130" -> "DF-2026-00130"
+  const normalizaProceso = (v) => {
+    const s = v.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    const m = s.match(/^DF(\d{4})(\d{1,5})$/);
+    return m ? `DF-${m[1]}-${m[2].padStart(5, '0')}` : null;
+  };
+
+  const fecha = (v) => {
+    const d = new Date(`${v}T12:00:00`);
+    return Number.isNaN(d.getTime()) ? v : d.toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' });
+  };
+  function nodo(tag, cls, txt) {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (txt !== undefined && txt !== null) n.textContent = txt;
+    return n;
+  }
+
+  function tarjetaProceso(p) {
+    const card = nodo('article', 'proc');
+    const head = nodo('header', 'proc__head');
+    head.append(nodo('span', 'proc__id', p.consecutivo));
+    if (p.tipo) head.append(nodo('span', 'proc__tipo', p.tipo));
+    card.append(head);
+    card.append(nodo('p', 'proc__etapa', [p.etapa, p.subestado].filter(Boolean).join(' · ')));
+    if (Array.isArray(p.etapas) && p.etapas.length > 1 && Number.isInteger(p.etapaIndex)) {
+      const bar = nodo('div', 'proc__bar');
+      bar.setAttribute('role', 'img');
+      bar.setAttribute('aria-label', `Etapa ${p.etapaIndex + 1} de ${p.etapas.length}: ${p.etapas[p.etapaIndex]}`);
+      // Solo se resalta la etapa actual: algunos procesos se saltan etapas, así que no se marca ninguna como «hecha».
+      p.etapas.forEach((e, i) => { bar.append(nodo('i', i === p.etapaIndex ? 'now' : '')); });
+      card.append(bar);
+      card.append(nodo('p', 'proc__count', `Etapa ${p.etapaIndex + 1} de ${p.etapas.length}`));
+    }
+    if (p.descripcion) card.append(nodo('p', 'proc__desc', p.descripcion));
+    const dl = nodo('dl', 'proc__data');
+    if (p.proximoPaso) { const r = nodo('div'); r.append(nodo('dt', '', 'Próximo paso'), nodo('dd', '', p.proximoPaso)); dl.append(r); }
+    if (p.actualizado) { const r = nodo('div'); r.append(nodo('dt', '', 'Última actualización'), nodo('dd', '', fecha(p.actualizado))); dl.append(r); }
+    if (dl.children.length) card.append(dl);
+    return card;
+  }
+
+  function muestraResultado(data, proceso) {
+    result.replaceChildren();
+    result.append(nodo('p', 'kicker', 'Estado de tu proceso'));
+    result.append(nodo('h2', '', data.nombre ? `Hola, ${data.nombre}` : 'Tu proceso'));
+    result.append(nodo('p', 'muted', data.procesos.length > 1 ? 'Estos son tus procesos y en qué etapa va cada uno.' : 'Esto es lo que tenemos registrado de tu proceso.'));
+    if (data.demo) result.append(nodo('p', 'proc__demo', 'Vista de ejemplo: estos datos no son reales. Así verás tu proceso cuando esté conectado.'));
+    const lista = nodo('div', 'procs');
+    data.procesos.forEach((p) => lista.append(tarjetaProceso(p)));
+    result.append(lista);
+    const acciones = nodo('div', 'modal__actions');
+    const hablar = nodo('a', 'btn btn--primary btn--lg', 'Hablar con mi asesor');
+    hablar.href = waLink(`Hola, quiero consultar sobre mi proceso ${proceso}.`);
+    hablar.target = '_blank'; hablar.rel = 'noopener';
+    hablar.addEventListener('click', () => track('whatsapp_click', { origen: 'consulta_proceso' }));
+    const otra = nodo('button', 'btn btn--line btn--lg', 'Consultar otro proceso');
+    otra.type = 'button';
+    otra.addEventListener('click', () => { showForm(); form.proceso.focus(); });
+    acciones.append(hablar, otra);
+    result.append(acciones);
+    wrap.hidden = true; result.hidden = false;
+    result.scrollTop = 0;
+  }
+
+  async function consulta(proceso, codigo) {
+    if (!PROCESO_API) {
+      if (proceso === DEMO.proceso && codigo === DEMO.codigo) return DEMO.respuesta;
+      return { ok: false, error: 'en_preparacion' };
+    }
+    // text/plain evita la verificación previa (CORS) y funciona con Google Apps Script y con Cloudflare Workers
+    const r = await fetch(PROCESO_API, {
+      method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ proceso, codigo }), cache: 'no-store',
+    });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    return r.json();
+  }
 
   document.addEventListener('click', (e) => {
-    const wa = e.target.closest('[data-whatsapp]');
-    if (wa && WHATSAPP_NUMBER) {
-      e.preventDefault();
-      const base = WHATSAPP_TEXTS[wa.dataset.intent] || WHATSAPP_TEXTS.caso;
-      const text = base.replace('{servicio}', wa.dataset.service || '');
-      track('whatsapp_click', { origen: wa.dataset.intent || 'boton' });
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
-      return;
-    }
-    const trigger = wa || e.target.closest('[data-open-form]');
-    if (!trigger) return;
+    const t = e.target.closest('[data-open-proceso]');
+    if (!t) return;
     e.preventDefault();
     setMenu(false);
-    openForm(trigger.dataset.intent, trigger.dataset.service);
+    openForm();
   });
-
+  codeToggle.addEventListener('click', () => setCodeVisible(form.codigo.type === 'password'));
   dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+  form.codigo.addEventListener('input', () => { form.codigo.value = form.codigo.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); });
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const nombre = form.nombre.value.trim();
-    const celular = form.celular.value.replace(/\D/g, '');
-    if (nombre.length < 3) return showError('Escribe tu nombre completo.');
-    if (celular.length < 7) return showError('Escribe un número de celular válido.');
-    if (!form.acepta.checked) return showError('Debes autorizar el tratamiento de tus datos para continuar.');
+    if (Date.now() < bloqueoHasta) return showError('Hiciste varios intentos. Espera un momento e inténtalo de nuevo.');
+    const proceso = normalizaProceso(form.proceso.value);
+    const codigo = form.codigo.value.trim().toUpperCase();
+    if (!proceso) return showError('Escribe tu número de proceso completo, por ejemplo DF-2026-00130.');
+    if (codigo.length !== 6) return showError('Tu código de seguridad tiene 6 caracteres.');
     err.hidden = true;
+    form.proceso.value = proceso;
 
-    // TODO: enviar `payload` a tu backend / CRM / automatización antes de publicar.
-    const payload = { nombre, celular, servicio: form.servicio.value, origen: current.intent, fecha: new Date().toISOString() };
-    console.info('[Datafin] solicitud (pendiente de conectar):', payload);
-
-    track('lead', { origen: 'formulario', intent: current.intent });
-    wrap.hidden = true; done.hidden = false;
-    form.reset();
+    submitBtn.disabled = true;
+    submitBtn.firstElementChild.textContent = 'Consultando…';
+    try {
+      const data = await consulta(proceso, codigo);
+      if (data && data.ok && Array.isArray(data.procesos) && data.procesos.length) {
+        intentos = 0;
+        track('consulta_proceso', { resultado: data.demo ? 'demo' : 'ok' });
+        muestraResultado(data, proceso);
+      } else if (data && data.error === 'en_preparacion') {
+        showError('Esta consulta estará disponible muy pronto. Mientras tanto, escríbenos por WhatsApp y te contamos cómo va tu proceso.');
+      } else if (data && data.error === 'limite') {
+        showError('Hiciste demasiados intentos. Inténtalo de nuevo en unos minutos.');
+      } else {
+        intentos += 1;
+        if (intentos >= 5) { bloqueoHasta = Date.now() + 60000; intentos = 0; }
+        showError('No encontramos un proceso con esos datos. Revisa tu número de proceso y tu código, o escríbenos por WhatsApp.');
+      }
+    } catch (error) {
+      showError('No pudimos consultar en este momento. Inténtalo de nuevo en unos minutos o escríbenos por WhatsApp.');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.firstElementChild.textContent = 'Consultar mi caso';
+    }
   });
 
   // Chat flotante estilo WhatsApp: el cliente escribe su pregunta y se envía a WhatsApp ------
@@ -250,5 +318,4 @@
     });
   }
 
-  function showError(msg) { err.textContent = msg; err.hidden = false; }
 })();
