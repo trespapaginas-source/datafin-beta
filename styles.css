@@ -70,9 +70,7 @@ h1, h2, h3, p, figure, blockquote { margin: 0; }
 .link-arrow .ico { width: 18px; height: 18px; transition: transform .2s; }
 .link-arrow:hover .ico { transform: translateX(4px); }
 
-/* ---------- Reveal ---------- */
-.js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease var(--d, 0s), transform .7s cubic-bezier(.2, .7, .2, 1) var(--d, 0s); }
-.js .reveal.in { opacity: 1; transform: none; }
+/* ---------- Reveal: ahora vive en motion.css ---------- */
 
 /* ---------- Navbar ---------- */
 .nav { position: fixed; inset: 0 0 auto 0; height: var(--nav-h); z-index: 50; color: #fff; transition: background .3s ease, box-shadow .3s ease, backdrop-filter .3s; }
@@ -89,7 +87,7 @@ h1, h2, h3, p, figure, blockquote { margin: 0; }
 .nav__toggle { margin-left: auto; width: 44px; height: 44px; background: transparent; border: 0; color: #fff; place-items: center; }
 
 /* ---------- Hero ---------- */
-.hero { position: relative; isolation: isolate; color: #fff; background: var(--navy) url("assets/hero-web.webp") center bottom / cover no-repeat; padding: calc(var(--nav-h) + 56px) 0 150px; overflow: hidden; }
+.hero { position: relative; isolation: isolate; color: #fff; background: var(--navy); padding: calc(var(--nav-h) + 56px) 0 150px; overflow: hidden; }
 .hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(11, 8, 36, .92) 0%, rgba(11, 8, 36, .66) 42%, rgba(11, 8, 36, .1) 78%), linear-gradient(0deg, rgba(11, 8, 36, .5), transparent 35%); }
 .hero__in { display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: 24px; min-height: 520px; }
 .hero__copy { max-width: 700px; }
@@ -134,11 +132,8 @@ h1, h2 { text-wrap: balance; }
 .step__rail::before { content: ""; position: absolute; left: 0; top: 0; width: 14px; height: 14px; border-radius: 50%; background: var(--c1); box-shadow: 0 0 0 6px color-mix(in srgb, var(--c1) 16%, transparent); z-index: 2; }
 .step__rail::after, .step__rail i { content: ""; position: absolute; left: 14px; right: calc(var(--gap) * -1); top: 6px; height: 2px; border-radius: 2px; }
 .step__rail::after { background: var(--line); }
-.step__rail i { background: linear-gradient(90deg, var(--c1), var(--c2)); transform: scaleX(0); transform-origin: left; transition: transform .8s cubic-bezier(.4, 0, .2, 1) calc(var(--i) * .55s + .15s); z-index: 1; }
-.steps.in .step__rail i { transform: scaleX(1); }
+.step__rail i { background: linear-gradient(90deg, var(--c1), var(--c2)); transform: scaleX(var(--f, 1)); transform-origin: left; z-index: 1; }
 .step:last-child .step__rail::after, .step:last-child .step__rail i { display: none; }
-.js .step__body { opacity: 0; transform: translateY(14px); transition: opacity .6s ease calc(var(--i) * .5s), transform .6s ease calc(var(--i) * .5s); }
-.js .steps.in .step__body { opacity: 1; transform: none; }
 .step__num { display: inline-block; font-size: 3.4rem; line-height: 1; font-weight: 800; letter-spacing: -.04em; }
 .step h3 { margin-top: 14px; font-size: 1.25rem; font-weight: 800; letter-spacing: -.02em; }
 .step p { margin-top: 10px; color: var(--muted); max-width: 22em; }
@@ -308,8 +303,7 @@ h1, h2 { text-wrap: balance; }
   .step__rail { height: auto; margin: 0; align-self: stretch; }
   .step__rail::before { top: 12px; }
   .step__rail::after, .step__rail i { left: 6px; right: auto; top: 26px; bottom: 0; width: 2px; height: auto; }
-  .step__rail i { transform: scaleY(0); transform-origin: top; }
-  .steps.in .step__rail i { transform: scaleY(1); }
+  .step__rail i { transform: scaleY(var(--f, 1)); transform-origin: top; }
   .step__body { padding-bottom: 40px; }
   .step__num { font-size: 2.6rem; }
   .step:last-child .step__body { padding-bottom: 0; }
@@ -322,7 +316,7 @@ h1, h2 { text-wrap: balance; }
   .container { width: min(1200px, 100% - 40px); }
 
   /* Hero móvil: fondo vertical propio, texto grande, CTA prioritario */
-  .hero { background-image: url("assets/hero-movil.webp"); background-position: center 70%; padding: calc(var(--nav-h) + 28px) 0 120px; }
+  .hero { padding: calc(var(--nav-h) + 28px) 0 120px; }
   .hero::before { background: linear-gradient(180deg, rgba(11, 8, 36, .88) 0%, rgba(11, 8, 36, .62) 55%, rgba(11, 8, 36, .5) 100%); }
   /* Hero móvil: 2 columnas arriba (texto | equipo) y CTAs debajo */
   .hero { padding-bottom: 112px; }

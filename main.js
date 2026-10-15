@@ -7,6 +7,9 @@
   const WHATSAPP_NUMBER = '573127045885';
   // Servicio que responde con el estado del proceso (se define en index.html). Vacío = en preparación.
   const PROCESO_API = (window.DATAFIN_PROCESO_API || '').trim();
+  // Fecha desde la que se pueden consultar procesos en la web, por ejemplo '15 de noviembre de 2026'.
+  // Vacía = el mensaje de «no encontrado» habla del «lanzamiento de este servicio» sin dar fecha.
+  const FECHA_LANZAMIENTO = '';
 
   const track = (n, p) => { if (window.datafinTrack) window.datafinTrack(n, p); };
   const $ = (s, c = document) => c.querySelector(s);
@@ -31,13 +34,7 @@
   $$('a', links).forEach((a) => a.addEventListener('click', () => setMenu(false)));
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
 
-  // Reveal on scroll + línea de progreso de "Cómo funciona" -----------------
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((en) => {
-      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
-    });
-  }, { threshold: 0.18, rootMargin: '0px 0px -6% 0px' });
-  $$('.reveal, #steps').forEach((el) => io.observe(el));
+  // Las entradas al hacer scroll y la línea de "Cómo funciona" las activa motion.js
 
   // Fotografías reales: assets/equipo.* y assets/asesora.* -------------------
   // Mientras no existan, se muestra un espacio reservado discreto.
@@ -61,7 +58,7 @@
     ph.innerHTML = `<svg class="ico ico--lg" aria-hidden="true"><use href="#i-users"/></svg>${slot.dataset.label}<small>Agrega assets/${slot.dataset.photo}.png</small>`;
     slot.appendChild(ph);
     probe(slot.dataset.photo).then((src) => {
-      if (!src) return;
+      if (!src) { ph.classList.add('on'); return; }
       const img = document.createElement('img');
       img.src = src;
       img.alt = slot.dataset.label;
@@ -134,7 +131,8 @@
   };
 
   const fecha = (v) => {
-    const d = new Date(`${v}T12:00:00`);
+    const m = String(v).match(/^\d{4}-\d{2}-\d{2}/);          // acepta «2026-10-02» y «2026-10-02T05:00:00Z»
+    const d = new Date(`${m ? m[0] : v}T12:00:00`);
     return Number.isNaN(d.getTime()) ? v : d.toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' });
   };
   function nodo(tag, cls, txt) {
@@ -150,7 +148,8 @@
     head.append(nodo('span', 'proc__id', p.consecutivo));
     if (p.tipo) head.append(nodo('span', 'proc__tipo', p.tipo));
     card.append(head);
-    card.append(nodo('p', 'proc__etapa', [p.etapa, p.subestado].filter(Boolean).join(' · ')));
+    const etapaTxt = [p.etapa, p.subestado].filter(Boolean).join(' · ');
+    if (etapaTxt) card.append(nodo('p', 'proc__etapa', etapaTxt));
     if (Array.isArray(p.etapas) && p.etapas.length > 1 && Number.isInteger(p.etapaIndex)) {
       const bar = nodo('div', 'proc__bar');
       bar.setAttribute('role', 'img');
@@ -162,6 +161,7 @@
     }
     if (p.descripcion) card.append(nodo('p', 'proc__desc', p.descripcion));
     const dl = nodo('dl', 'proc__data');
+    if (p.entidad) { const r = nodo('div'); r.append(nodo('dt', '', 'Entidad'), nodo('dd', '', p.entidad)); dl.append(r); }
     if (p.proximoPaso) { const r = nodo('div'); r.append(nodo('dt', '', 'Próximo paso'), nodo('dd', '', p.proximoPaso)); dl.append(r); }
     if (p.actualizado) { const r = nodo('div'); r.append(nodo('dt', '', 'Última actualización'), nodo('dd', '', fecha(p.actualizado))); dl.append(r); }
     if (dl.children.length) card.append(dl);
@@ -196,10 +196,10 @@
       if (proceso === DEMO.proceso && codigo === DEMO.codigo) return DEMO.respuesta;
       return { ok: false, error: 'en_preparacion' };
     }
-    // text/plain evita la verificación previa (CORS) y funciona con Google Apps Script y con Cloudflare Workers
+    // Cuerpo como texto plano y sin encabezados propios: así el navegador no hace consulta previa (CORS)
+    // y Google Apps Script responde. Apps Script contesta con una redirección, que fetch sigue solo.
     const r = await fetch(PROCESO_API, {
-      method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ proceso, codigo }), cache: 'no-store',
+      method: 'POST', body: JSON.stringify({ proceso, codigo }), redirect: 'follow',
     });
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     return r.json();
@@ -237,14 +237,17 @@
       } else if (data && data.error === 'en_preparacion') {
         showError('Esta consulta estará disponible muy pronto. Mientras tanto, escríbenos por WhatsApp y te contamos cómo va tu proceso.');
       } else if (data && data.error === 'limite') {
-        showError('Hiciste demasiados intentos. Inténtalo de nuevo en unos minutos.');
-      } else {
+        showError('Demasiados intentos. Espera unos minutos o escríbenos por WhatsApp.');
+      } else if (data && data.error === 'no_coincide') {
         intentos += 1;
         if (intentos >= 5) { bloqueoHasta = Date.now() + 60000; intentos = 0; }
-        showError('No encontramos un proceso con esos datos. Revisa tu número de proceso y tu código, o escríbenos por WhatsApp.');
+        const desde = FECHA_LANZAMIENTO ? `desde el ${FECHA_LANZAMIENTO}` : 'desde el lanzamiento de este servicio';
+        showError(`Esta consulta funciona para procesos iniciados ${desde}. Si tu proceso empezó antes, escríbenos por WhatsApp y con gusto te contamos cómo va.`);
+      } else {
+        showError('Ahora mismo no podemos consultarlo. Intenta de nuevo en unos minutos o escríbenos por WhatsApp.');
       }
     } catch (error) {
-      showError('No pudimos consultar en este momento. Inténtalo de nuevo en unos minutos o escríbenos por WhatsApp.');
+      showError('Ahora mismo no podemos consultarlo. Intenta de nuevo en unos minutos o escríbenos por WhatsApp.');
     } finally {
       submitBtn.disabled = false;
       submitBtn.firstElementChild.textContent = 'Consultar mi caso';

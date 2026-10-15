@@ -37,7 +37,8 @@
   <link rel="preload" as="image" href="assets/hero-web.webp" media="(min-width: 761px)">
   <link rel="preload" as="image" href="assets/hero-movil.webp" media="(max-width: 760px)">
   <link rel="stylesheet" href="styles.css">
-  <script>document.documentElement.classList.add('js')</script>
+  <link rel="stylesheet" href="motion.css">
+  <script>document.documentElement.classList.add('js');window.__mf=setTimeout(function(){document.documentElement.classList.add('m-fallback')},3500)</script>
 </head>
 <body>
 
@@ -110,17 +111,17 @@
 <main id="contenido">
 
 <!-- ============================== HERO ============================== -->
-<section class="hero" id="inicio">
+<section class="hero" id="inicio" data-parallax=".14" data-max="56">
   <div class="container hero__in">
     <div class="hero__copy">
-      <p class="eyebrow reveal">Expertos en centrales de riesgo</p>
-      <h1 class="reveal" style="--d:.06s"><span class="ln">Recupera el control</span> <span class="ln">de tu <span class="grad-text">vida crediticia.</span></span></h1>
-      <p class="hero__lead reveal" style="--d:.12s">Analizamos tu situación y te orientamos con soluciones legales, claras y personalizadas.</p>
-      <div class="hero__ctas reveal" style="--d:.18s">
+      <p class="eyebrow" data-hero="eyebrow">Expertos en centrales de riesgo</p>
+      <h1 data-hero="title"><span class="ln">Recupera el control</span> <span class="ln">de tu <span class="grad-text">vida crediticia.</span></span></h1>
+      <p class="hero__lead" data-hero="lead">Analizamos tu situación y te orientamos con soluciones legales, claras y personalizadas.</p>
+      <div class="hero__ctas" data-hero="ctas">
         <button class="btn btn--primary btn--lg" data-open-proceso type="button">Consultar mi caso <svg class="ico ico--flat" aria-hidden="true"><use href="#i-arrow"/></svg></button>
         <a class="btn btn--ghost btn--lg" href="https://wa.me/573127045885?text=Hola%2C%20quiero%20hablar%20con%20un%20asesor%20de%20Datafin%20Beta." target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-whatsapp"/></svg> Hablar con un asesor</a>
       </div>
-      <ul class="hero__trust reveal" style="--d:.24s">
+      <ul class="hero__trust" data-hero="trust">
         <li><svg class="ico" aria-hidden="true"><use href="#i-lock"/></svg>Información confidencial</li>
         <li><svg class="ico" aria-hidden="true"><use href="#i-usercheck"/></svg>Asesoría personalizada</li>
         <li><svg class="ico" aria-hidden="true"><use href="#i-scale"/></svg>Proceso claro y transparente</li>
@@ -129,13 +130,13 @@
     </div>
 
     <!-- Foto del equipo: coloca assets/equipo.png (ideal PNG recortado) o .jpg/.webp -->
-    <div class="hero__photo photo-slot reveal" style="--d:.1s" data-photo="equipo" data-label="Foto del equipo Datafin Beta"></div>
+    <div class="hero__photo photo-slot" data-hero="photo" data-parallax=".07" data-max="40" data-photo="equipo" data-label="Foto del equipo Datafin Beta"></div>
   </div>
 </section>
 
 <!-- =========================== MÉTRICAS =========================== -->
-<div class="container metrics-wrap">
-  <ul class="metrics reveal">
+<div class="container metrics-wrap reveal" data-after-hero>
+  <ul class="metrics" data-stagger data-after-hero=".15">
     <li><svg class="ico ico--lg" aria-hidden="true"><use href="#i-users"/></svg><div><strong>1.347</strong><span>Reportes negativos gestionados</span></div></li>
     <li><svg class="ico ico--lg" aria-hidden="true"><use href="#i-usercheck"/></svg><div><strong>Asesoría inicial</strong><span>sin costo</span></div></li>
     <li><svg class="ico ico--lg" aria-hidden="true"><use href="#i-bank"/></svg><div><strong>2 centrales</strong><span>Datacrédito + Cifin</span></div></li>
@@ -146,19 +147,19 @@
 <!-- ======================= CONSULTA GENERAL (PRODUCTO DE ENTRADA) ======================= -->
 <section class="section section--consulta" id="consulta">
   <div class="container">
-    <div class="consulta reveal">
-      <div class="consulta__copy">
+    <div class="consulta reveal" data-reveal="scale">
+      <div class="consulta__copy" data-head style="--d:.1s">
         <p class="eyebrow">Empieza aquí</p>
         <h2>Conoce tu historial <span class="grad-text">con una asesora a tu lado.</span></h2>
         <p class="consulta__lead">Con la Consulta General ves qué aparece a tu nombre en Datacrédito y CIFIN, y una asesora te explica tu perfil y cuál es el mejor camino para tu caso.</p>
-        <ul class="consulta__list">
+        <ul class="consulta__list" data-stagger style="--d:.45s">
           <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Historial de Datacrédito</strong> en PDF</span></li>
           <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Historial de CIFIN</strong> en PDF</span></li>
           <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Llamada con una asesora</strong> que te explica tu perfil crediticio</span></li>
         </ul>
         <p class="consulta__note">Los historiales suelen estar listos en 15–20 minutos. La llamada se coordina después.</p>
       </div>
-      <div class="consulta__buy">
+      <div class="consulta__buy reveal" style="--d:.3s">
         <p class="consulta__tag">Consulta General</p>
         <p class="consulta__price"><strong>$69.900</strong><span>COP</span></p>
         <a class="btn btn--primary btn--lg btn--block" href="https://wa.me/573127045885?text=Hola%2C%20quiero%20hacer%20la%20Consulta%20General%20de%20mi%20historial%20crediticio." target="_blank" rel="noopener" data-track="consulta_general">Quiero mi Consulta General <svg class="ico ico--flat" aria-hidden="true"><use href="#i-arrow"/></svg></a>
@@ -172,7 +173,7 @@
 <!-- ========================= CÓMO FUNCIONA ========================= -->
 <section class="section" id="como-funciona">
   <div class="container">
-    <header class="section__head section__head--center reveal">
+    <header class="section__head section__head--center" data-head>
       <p class="kicker">Cómo funciona</p>
       <h2>Un proceso claro, de principio a fin</h2>
       <p class="muted">Cuatro pasos, sin letra pequeña y con una persona real acompañándote.</p>
@@ -218,12 +219,12 @@
 <!-- ============================ RESULTADOS ============================ -->
 <section class="results" id="resultados">
   <div class="container results__in">
-    <div class="results__copy">
-      <p class="eyebrow reveal">Resultados reales</p>
-      <h2 class="reveal" style="--d:.05s">Más personas recuperando <span class="grad-text">oportunidades.</span></h2>
-      <p class="results__lead reveal" style="--d:.1s">Un equipo real acompañando cada caso, de principio a fin.</p>
+    <div class="results__copy" data-head>
+      <p class="eyebrow">Resultados reales</p>
+      <h2>Más personas recuperando <span class="grad-text">oportunidades.</span></h2>
+      <p class="results__lead">Un equipo real acompañando cada caso, de principio a fin.</p>
 
-      <ul class="results__stats reveal" style="--d:.15s">
+      <ul class="results__stats" data-stagger style="--d:.4s">
         <li><svg class="ico ico--lg" aria-hidden="true"><use href="#i-users"/></svg><strong>1.347</strong><span>Reportes negativos gestionados</span></li>
         <li><svg class="ico ico--lg" aria-hidden="true"><use href="#i-bank"/></svg><strong>2 centrales</strong><span>Datacrédito + Cifin</span></li>
         <li><svg class="ico ico--lg" aria-hidden="true"><use href="#i-usercheck"/></svg><strong>Sin costo</strong><span>Asesoría inicial</span></li>
@@ -232,26 +233,26 @@
     </div>
 
     <!-- Foto de la asesora: coloca assets/asesora.png (ideal PNG recortado) o .jpg/.webp -->
-    <div class="results__photo photo-slot reveal" style="--d:.1s" data-photo="asesora" data-label="Foto de la asesora con tablet"></div>
+    <div class="results__photo photo-slot reveal" data-reveal="photo" style="--d:.15s" data-parallax="48" data-mode="rise" data-photo="asesora" data-label="Foto de la asesora con tablet"></div>
   </div>
 </section>
 
 <!-- ============================ SERVICIOS ============================ -->
 <section class="section section--tint" id="servicios">
   <div class="container">
-    <header class="section__head section__head--split reveal">
-      <div>
+    <header class="section__head section__head--split">
+      <div data-head>
         <p class="kicker">Servicios</p>
         <h2>Nuestros servicios</h2>
         <p class="muted">Soluciones completas para cada etapa de tu vida crediticia.</p>
       </div>
-      <a class="link-arrow" href="https://wa.me/573127045885?text=Hola%2C%20no%20s%C3%A9%20qu%C3%A9%20servicio%20necesito.%20%C2%BFMe%20pueden%20orientar%3F" target="_blank" rel="noopener">No sé cuál elegir <svg class="ico ico--flat" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a class="link-arrow reveal" style="--d:.35s" href="https://wa.me/573127045885?text=Hola%2C%20no%20s%C3%A9%20qu%C3%A9%20servicio%20necesito.%20%C2%BFMe%20pueden%20orientar%3F" target="_blank" rel="noopener">No sé cuál elegir <svg class="ico ico--flat" aria-hidden="true"><use href="#i-arrow"/></svg></a>
     </header>
 
-    <div class="services">
+    <div class="services" data-stagger>
 
       <!-- 01 Historial -->
-      <a class="card reveal" href="https://wa.me/573127045885?text=Hola%2C%20me%20interesa%20hacer%20una%20consulta%20general%20de%20mi%20historial%20crediticio." target="_blank" rel="noopener">
+      <a class="card" href="https://wa.me/573127045885?text=Hola%2C%20me%20interesa%20hacer%20una%20consulta%20general%20de%20mi%20historial%20crediticio." target="_blank" rel="noopener">
         <div class="card__ill">
           <svg viewBox="0 0 260 170" role="img" aria-label="Documento con gráfico de barras y sello PDF">
             <ellipse cx="130" cy="158" rx="88" ry="7" fill="#6D28FF" opacity=".10"/>
@@ -276,7 +277,7 @@
       </a>
 
       <!-- 02 Telefonía -->
-      <a class="card reveal" style="--d:.06s" href="https://wa.me/573127045885?text=Hola%2C%20me%20interesa%20la%20gesti%C3%B3n%20de%20reportes%20negativos%20de%20telefon%C3%ADa." target="_blank" rel="noopener">
+      <a class="card" style="--d:.06s" href="https://wa.me/573127045885?text=Hola%2C%20me%20interesa%20la%20gesti%C3%B3n%20de%20reportes%20negativos%20de%20telefon%C3%ADa." target="_blank" rel="noopener">
         <div class="card__ill">
           <svg viewBox="0 0 260 170" role="img" aria-label="Smartphone con reporte, antena y alerta">
             <ellipse cx="130" cy="158" rx="92" ry="7" fill="#6D28FF" opacity=".10"/>
@@ -307,7 +308,7 @@
       </a>
 
       <!-- 03 Financieras -->
-      <a class="card reveal" style="--d:.12s" href="https://wa.me/573127045885?text=Hola%2C%20me%20interesa%20la%20gesti%C3%B3n%20de%20reportes%20negativos%20con%20financieras%20y%20cooperativas." target="_blank" rel="noopener">
+      <a class="card" style="--d:.12s" href="https://wa.me/573127045885?text=Hola%2C%20me%20interesa%20la%20gesti%C3%B3n%20de%20reportes%20negativos%20con%20financieras%20y%20cooperativas." target="_blank" rel="noopener">
         <div class="card__ill">
           <svg viewBox="0 0 260 170" role="img" aria-label="Documento, entidad financiera, alerta y monedas">
             <ellipse cx="130" cy="158" rx="92" ry="7" fill="#6D28FF" opacity=".10"/>
@@ -340,7 +341,7 @@
       </a>
 
       <!-- 04 SIMIT -->
-      <a class="card reveal" href="https://wa.me/573127045885?text=Hola%2C%20me%20interesa%20la%20gesti%C3%B3n%20de%20comparendos%20de%20tr%C3%A1nsito%20%28SIMIT%29." target="_blank" rel="noopener">
+      <a class="card" href="https://wa.me/573127045885?text=Hola%2C%20me%20interesa%20la%20gesti%C3%B3n%20de%20comparendos%20de%20tr%C3%A1nsito%20%28SIMIT%29." target="_blank" rel="noopener">
         <div class="card__ill">
           <svg viewBox="0 0 260 170" role="img" aria-label="Semáforo, documento SIMIT y vehículo">
             <ellipse cx="130" cy="160" rx="100" ry="6" fill="#6D28FF" opacity=".10"/>
@@ -371,7 +372,7 @@
       </a>
 
       <!-- 05 Fortalecimiento -->
-      <a class="card reveal" style="--d:.06s" href="https://wa.me/573127045885?text=Hola%2C%20me%20interesa%20el%20fortalecimiento%20de%20mi%20perfil%20crediticio." target="_blank" rel="noopener">
+      <a class="card" style="--d:.06s" href="https://wa.me/573127045885?text=Hola%2C%20me%20interesa%20el%20fortalecimiento%20de%20mi%20perfil%20crediticio." target="_blank" rel="noopener">
         <div class="card__ill">
           <svg viewBox="0 0 260 170" role="img" aria-label="Medidor de puntaje, crecimiento y perfil verificado">
             <ellipse cx="130" cy="158" rx="100" ry="7" fill="#6D28FF" opacity=".10"/>
@@ -403,9 +404,9 @@
 <!-- ======================== BANNER DE ASESORÍA ======================== -->
 <section class="section section--tight">
   <div class="container">
-    <div class="advisor reveal">
+    <div class="advisor reveal" data-reveal="scale">
       <div class="advisor__bg" aria-hidden="true"></div>
-      <div class="advisor__copy">
+      <div class="advisor__copy" data-head style="--d:.12s">
         <p class="eyebrow">Asesoría sin costo</p>
         <h2>¿No sabes cuál servicio <span class="grad-text">necesitas?</span></h2>
         <p class="advisor__lead">Cuéntanos tu situación y un asesor te orientará sin compromiso.</p>
@@ -418,7 +419,7 @@
 <!-- ============================ QUIÉNES SOMOS ============================ -->
 <section class="section" id="nosotros">
   <div class="container about">
-    <div class="about__copy reveal">
+    <div class="about__copy" data-head>
       <p class="kicker">Quiénes somos</p>
       <h2>Especialistas en el sistema crediticio, con datos que puedes verificar</h2>
       <p class="about__lead">Somos Datafin Beta: te ayudamos a entender tu historial en Datacrédito y CIFIN y, cuando tu caso es viable, adelantamos la gestión jurídica frente a reportes negativos y comparendos.</p>
@@ -428,11 +429,11 @@
         <a class="link-arrow" href="legal/">Documentos legales <svg class="ico ico--flat" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       </div>
     </div>
-    <ul class="about__facts">
-      <li class="fact reveal"><svg class="ico ico--lg" aria-hidden="true"><use href="#i-shield"/></svg><div><strong>Empresa registrada</strong><span>Datafin Soluciones Beta<br>NIT <span style="white-space:nowrap">1.143.142.682-2</span><br>Matrícula mercantil 942.952, Cámara de Comercio de Barranquilla</span></div></li>
-      <li class="fact reveal" style="--d:.06s"><svg class="ico ico--lg" aria-hidden="true"><use href="#i-pin"/></svg><div><strong>Nuestra sede</strong><span>Carrera 65 # 76-57<br>Barranquilla, Atlántico</span></div></li>
-      <li class="fact reveal" style="--d:.12s"><svg class="ico ico--lg" aria-hidden="true"><use href="#i-clock"/></svg><div><strong>Atención presencial con cita</strong><span>Lunes a viernes, de 9:00 a. m. a 5:00 p. m.</span></div></li>
-      <li class="fact reveal" style="--d:.18s"><svg class="ico ico--lg" aria-hidden="true"><use href="#i-whatsapp"/></svg><div><strong>Atención virtual en toda Colombia</strong><span>Por WhatsApp y llamada, sin que tengas que viajar</span></div></li>
+    <ul class="about__facts" data-stagger style="--d:.15s">
+      <li class="fact"><svg class="ico ico--lg" aria-hidden="true"><use href="#i-shield"/></svg><div><strong>Empresa registrada</strong><span>Datafin Soluciones Beta<br>NIT <span style="white-space:nowrap">1.143.142.682-2</span><br>Matrícula mercantil 942.952, Cámara de Comercio de Barranquilla</span></div></li>
+      <li class="fact"><svg class="ico ico--lg" aria-hidden="true"><use href="#i-pin"/></svg><div><strong>Nuestra sede</strong><span>Carrera 65 # 76-57<br>Barranquilla, Atlántico</span></div></li>
+      <li class="fact"><svg class="ico ico--lg" aria-hidden="true"><use href="#i-clock"/></svg><div><strong>Atención presencial con cita</strong><span>Lunes a viernes, de 9:00 a. m. a 5:00 p. m.</span></div></li>
+      <li class="fact"><svg class="ico ico--lg" aria-hidden="true"><use href="#i-whatsapp"/></svg><div><strong>Atención virtual en toda Colombia</strong><span>Por WhatsApp y llamada, sin que tengas que viajar</span></div></li>
     </ul>
   </div>
 </section>
@@ -440,13 +441,13 @@
 <!-- ================================ FAQ ================================ -->
 <section class="section section--tint" id="faq">
   <div class="container">
-    <header class="section__head section__head--center reveal">
+    <header class="section__head section__head--center" data-head>
       <p class="kicker">FAQ</p>
       <h2>Preguntas frecuentes</h2>
       <p class="muted">Resuelve tus dudas rápidamente.</p>
     </header>
 
-    <div class="faq reveal">
+    <div class="faq" data-stagger>
       <details class="qa">
         <summary>¿Qué es un reporte en centrales de riesgo?<svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg></summary>
         <p>Es el registro que centrales como Datacrédito y Cifin conservan sobre tu comportamiento de pago con bancos, financieras, cooperativas y empresas de servicios. Otras entidades lo consultan para decidir si te otorgan crédito.</p>
@@ -488,7 +489,7 @@
 <!-- ============================== FOOTER ============================== -->
 <footer class="footer" id="contacto">
   <div class="container">
-    <div class="footer__top">
+    <div class="footer__top" data-stagger>
       <div class="footer__brand">
         <a class="logo" href="#inicio" aria-label="Datafin Beta, inicio"><img src="assets/logo/logo-oficial-blanco.png" alt="datafin" width="720" height="183"><b>beta</b></a>
         <p>Expertos en soluciones crediticias.<br>No es magia, es legalidad.</p>
@@ -597,11 +598,12 @@
   /* Medición opcional. Pega aquí los IDs cuando existan; vacío = no se carga nada ni se muestra el aviso de cookies.
      meta: ID del Píxel de Meta · tiktok: ID del Píxel de TikTok · ga4: ID de medición de Google Analytics (G-XXXXXXXXXX) */
   window.DATAFIN_TRACKING = { meta: '', tiktok: '', ga4: '' };
-  /* Consulta de proceso: pega aquí la URL del servicio que responde con el estado del proceso (ver backend/README.md).
-     Vacío = la consulta muestra "en preparación" y solo funciona con el ejemplo DF-2026-00000 / DEMO00. */
+  /* Consulta de proceso: URL del servicio (Google Apps Script) que responde con el estado del proceso (ver backend/README.md).
+     No cambiarla sin avisar a quien administra la hoja. Vacío = la consulta muestra "en preparación" y solo funciona con el ejemplo. */
   window.DATAFIN_PROCESO_API = '';
 </script>
 <script src="tracking.js"></script>
 <script src="main.js"></script>
+<script src="motion.js"></script>
 </body>
 </html>

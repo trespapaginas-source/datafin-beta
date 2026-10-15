@@ -1,0 +1,239 @@
+/* ==========================================================
+   Datafin Beta — sistema de movimiento
+   Un solo lenguaje: salidas largas y suaves, distancias cortas,
+   escalonados de 70 ms. Solo se anima transform y opacity.
+   Los valores se centralizan aquí (CSS) y en motion.js (JS).
+   ========================================================== */
+:root {
+  --m-ease: cubic-bezier(.16, 1, .3, 1);       /* salida larga y elegante */
+  --m-ease-soft: cubic-bezier(.22, .61, .36, 1);
+  --m-fast: .28s;
+  --m-base: .85s;
+  --m-slow: 1.1s;
+  --m-dist: 34px;                               /* distancia de entrada de secciones */
+  --m-dist-sm: 16px;                            /* distancia de textos y botones */
+  --m-step: 70ms;                               /* retraso entre elementos de un grupo */
+}
+@media (max-width: 760px) {
+  :root { --m-base: .65s; --m-slow: .85s; --m-dist: 20px; --m-dist-sm: 12px; --m-step: 55ms; }
+}
+body { overflow-x: clip; }
+
+/* ---------- Cuadros clave ---------- */
+@keyframes mRise   { from { opacity: 0; transform: translate3d(0, var(--m-dist), 0); } to { opacity: 1; transform: none; } }
+@keyframes mRiseSm { from { opacity: 0; transform: translate3d(0, var(--m-dist-sm), 0); } to { opacity: 1; transform: none; } }
+@keyframes mScale  { from { opacity: 0; transform: translate3d(0, calc(var(--m-dist) * .8), 0) scale(.965); } to { opacity: 1; transform: none; } }
+@keyframes mPhoto  { from { opacity: 0; transform: translate3d(0, calc(var(--m-dist) * 1.4), 0) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes mLine   { from { transform: translate3d(0, 112%, 0); } to { transform: none; } }
+@keyframes mWipe   { from { opacity: 0; clip-path: inset(0 0 100% 0); transform: translate3d(0, var(--m-dist-sm), 0); } to { opacity: 1; clip-path: inset(-10% -10% -10% -10%); transform: none; } }
+@keyframes mDown   { from { opacity: 0; transform: translate3d(0, -10px, 0); } to { opacity: 1; transform: none; } }
+@keyframes mPop    { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: none; } }
+@keyframes mHeroBg { from { scale: 1.07; } to { scale: 1; } }
+@keyframes mGlow   { from { opacity: .5; scale: .96; } to { opacity: 1; scale: 1.06; } }
+
+/* ---------- Entradas al hacer scroll ---------- */
+/* .reveal: bloque que entra solo (data-reveal = scale | photo; por defecto sube) */
+.js .reveal:not(.in) { opacity: 0; }
+.js .reveal.in { animation: mRise var(--m-base) var(--m-ease) var(--d, 0s) backwards; }
+.js .reveal[data-reveal="scale"].in { animation-name: mScale; animation-duration: var(--m-slow); }
+.js .reveal[data-reveal="photo"].in { animation-name: mPhoto; animation-duration: var(--m-slow); }
+
+/* data-stagger: sus hijos entran en secuencia */
+.js [data-stagger]:not(.in) > * { opacity: 0; }
+.js [data-stagger].in > * { animation: mRise var(--m-base) var(--m-ease) calc(var(--d, 0s) + var(--i, 0) * var(--m-step)) backwards; }
+
+/* data-head: encabezado editorial. Los títulos se revelan con máscara; el resto sube en secuencia */
+.mk { display: block; overflow: hidden; padding: .08em 0 .16em; margin: -.08em 0 -.16em; }
+.mk__in { display: block; }
+.js [data-head]:not(.in) > .m-it { opacity: 0; }
+.js [data-head]:not(.in) .mk__in { transform: translate3d(0, 112%, 0); }
+.js [data-head].in > .m-it { animation: mRiseSm var(--m-base) var(--m-ease) calc(var(--d, 0s) + var(--i, 0) * var(--m-step) * 1.5) backwards; }
+.js [data-head].in .mk__in { animation: mLine var(--m-slow) var(--m-ease) calc(var(--d, 0s) + var(--i, 0) * var(--m-step) * 1.5) backwards; }
+
+/* Precio de la Consulta General: entrada de escala breve; el valor no cambia */
+.js .consulta__buy.in .consulta__price strong { display: inline-block; animation: mPop .7s var(--m-ease) calc(var(--d, 0s) + .35s) backwards; }
+
+/* ---------- Hero: coreografía de entrada ---------- */
+.js [data-hero] { opacity: 0; }
+.m-hero [data-hero] { opacity: 1; animation: mRiseSm var(--m-base) var(--m-ease) calc(var(--h, 0) * 1ms) backwards; }
+.m-hero [data-hero="photo"] { animation-name: mPhoto; animation-duration: 1.2s; }
+
+/* Indicadores de confianza: cada uno entra por su cuenta */
+.js [data-hero="trust"] { opacity: 1; }
+.js [data-hero="trust"] > li { opacity: 0; }
+.m-hero [data-hero="trust"] { animation: none; }
+.m-hero [data-hero="trust"] > li { opacity: 1; animation: mRiseSm var(--m-base) var(--m-ease) calc(var(--h, 0) * 1ms) backwards; }
+
+/* Fondo del hero: capa propia que se asienta y, en escritorio, se desplaza más lento que el scroll */
+.hero::after { content: ""; position: absolute; inset: 0; z-index: -2; background: url("assets/hero-movil.webp") center 70% / cover no-repeat; transform-origin: 50% 100%; pointer-events: none; }
+.js .hero::after { scale: 1.07; }
+.m-hero .hero::after { scale: 1; animation: mHeroBg 1.9s var(--m-ease) backwards; }
+
+/* Título del hero: móvil = barrido; escritorio y tableta = máscara por líneas */
+.js .hero h1 .ln__in { display: inline; }
+.m-hero .hero h1[data-hero] { animation-name: mWipe; animation-duration: var(--m-slow); }
+
+@media (min-width: 761px) {
+  .hero::after { background-image: url("assets/hero-web.webp"); background-position: center bottom; }
+  .hero .ln { overflow: hidden; padding: .06em .06em .16em; margin: -.06em -.06em -.16em; }
+  .js .hero h1 .ln__in { display: block; transform: translate3d(0, 112%, 0); }
+  .m-hero .hero h1[data-hero] { animation: none; }
+  .m-hero .hero h1 .ln__in { transform: none; animation: mLine 1.1s var(--m-ease) calc(var(--h, 0) * 1ms) backwards; }
+
+  /* Resplandor ambiental detrás del equipo (pausado cuando el hero sale de pantalla) */
+  .hero__photo { isolation: isolate; }
+  .hero__photo::before { content: ""; position: absolute; z-index: -1; inset: 18% -8% 0 -8%; background: radial-gradient(closest-side, rgba(217, 70, 239, .26), rgba(109, 40, 255, .12) 60%, transparent 100%); pointer-events: none; opacity: .5; }
+  .m-hero .hero__photo::before { animation: mGlow 8s ease-in-out infinite alternate; }
+  .hero.m-off .hero__photo::before { animation-play-state: paused; }
+}
+@media (min-width: 1041px) {
+  .hero::after { inset: -56px 0 0 0; translate: 0 var(--py, 0px); will-change: transform; }
+  .hero__photo, .results__photo { translate: 0 var(--py, 0px); }
+}
+
+/* Foto sin archivo: el recuadro de ayuda solo aparece si de verdad falta la imagen */
+.photo-slot .ph { opacity: 0; }
+.photo-slot .ph.on { opacity: 1; }
+.photo-slot.loaded img { animation: mFade .6s var(--m-ease-soft, ease) backwards; }
+@keyframes mFade { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---------- Barra de navegación: entrada inicial ---------- */
+.js .nav .logo, .js .nav__cta, .js .nav__toggle { opacity: 0; }
+.m-hero .nav .logo, .m-hero .nav__cta, .m-hero .nav__toggle { opacity: 1; animation: mDown .8s var(--m-ease) calc(var(--h, 0) * 1ms) backwards; }
+@media (min-width: 861px) {
+  .js .nav__links > a { opacity: 0; }
+  .m-hero .nav__links > a { opacity: 1; animation: mDown .8s var(--m-ease) calc(var(--h, 0) * 1ms) backwards; }
+}
+
+/* ==========================================================
+   FASE 2 — interacción
+   ========================================================== */
+@keyframes mNum   { from { opacity: 0; transform: translate3d(0, 14px, 0) scale(.82); } to { opacity: 1; transform: none; } }
+@keyframes mWa    { from { opacity: 0; transform: translate3d(0, 24px, 0) scale(.85); } to { opacity: 1; transform: none; } }
+@keyframes mShake { 0% { opacity: 0; transform: translate3d(-6px, 0, 0); } 35% { opacity: 1; transform: translate3d(5px, 0, 0); } 65% { transform: translate3d(-3px, 0, 0); } 100% { transform: none; } }
+@keyframes mBar   { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes mSpin  { to { transform: rotate(360deg); } }
+
+/* ---------- Botones: un solo lenguaje (reposo, hover, foco, presionado, desactivado) ---------- */
+.btn { position: relative; overflow: hidden; transition: transform .25s var(--m-ease), box-shadow .25s ease, background .2s ease, border-color .2s ease, opacity .2s ease, translate .25s var(--m-ease); }
+.btn:active { transform: translateY(0) scale(.975); transition-duration: .1s; }
+.btn:disabled, .btn[aria-disabled="true"] { opacity: .6; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn--primary::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(105deg, transparent 32%, rgba(255, 255, 255, .26) 50%, transparent 68%); transform: translateX(-130%); }
+@media (hover: hover) {
+  .btn--primary:hover::after { transform: translateX(130%); transition: transform .75s var(--m-ease); }
+}
+#caseSubmit:disabled { cursor: progress; opacity: .85; }
+#caseSubmit:disabled::before { content: ""; width: 16px; height: 16px; flex: none; border-radius: 50%; border: 2px solid rgba(255, 255, 255, .35); border-top-color: #fff; animation: mSpin .7s linear infinite; }
+.link-arrow, .qa summary, .social a, .nav__toggle { -webkit-tap-highlight-color: transparent; }
+
+/* ---------- Barra de navegación: sección activa y subrayado ---------- */
+.nav__links a.is-active { color: #fff; }
+@media (min-width: 861px) {
+  .nav__links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -7px; height: 2px; border-radius: 2px; background: var(--grad-dark); transform: scaleX(0); transform-origin: left; transition: transform .4s var(--m-ease); }
+  .nav__links a:hover::after, .nav__links a.is-active::after { transform: scaleX(1); }
+}
+/* Menú móvil: los enlaces entran en cascada */
+@media (max-width: 860px) {
+  .nav .nav__links > * { opacity: 0; transform: translate3d(0, 10px, 0); transition: opacity .3s ease, transform .45s var(--m-ease), color .2s; }
+  .nav .nav__links.open > * { opacity: 1; transform: none; transition-delay: calc(var(--i, 0) * 45ms + 60ms); }
+  .nav__toggle .ico { transition: transform .4s var(--m-ease); }
+  .nav__toggle[aria-expanded="true"] .ico { transform: rotate(90deg); }
+}
+
+/* ---------- Servicios: tarjetas ---------- */
+.card::before { content: ""; position: absolute; top: -1px; left: 28px; right: 28px; height: 2px; border-radius: 2px; background: var(--grad); transform: scaleX(0); transform-origin: left; transition: transform .55s var(--m-ease); }
+.card:hover::before, .card:focus-visible::before { transform: scaleX(1); }
+.card:focus-visible .card__go { transform: translateX(4px); background: var(--violet); }
+.card:hover .card__go .ico { transform: translateX(2px); }
+.card__go .ico { transition: transform .25s var(--m-ease); }
+.fact { transition: transform .35s var(--m-ease), box-shadow .35s ease, border-color .3s ease; }
+@media (hover: hover) { .fact:hover { transform: translateY(-4px); border-color: #D9CFF7; box-shadow: 0 2px 4px rgba(23, 19, 58, .05), 0 24px 44px -26px rgba(109, 40, 255, .38); } }
+/* Táctil: sin "hover pegado"; respuesta al tocar */
+@media (hover: none) {
+  .qa summary:hover { color: var(--ink); }
+  .qa.is-open summary, .qa[open]:not(.is-closing) summary { color: var(--purple); }
+  .link-arrow:hover .ico, .social a:hover { transform: none; }
+  .card:hover { transform: none; border-color: var(--line); box-shadow: var(--shadow-card); }
+  .card:hover .card__ill svg { transform: none; }
+  .card:hover .card__go { transform: none; background: var(--purple); }
+  .card:hover::before { transform: scaleX(0); }
+  .card:active { transform: scale(.985); border-color: #D9CFF7; box-shadow: 0 2px 4px rgba(23, 19, 58, .05), 0 22px 40px -24px rgba(109, 40, 255, .4); transition-duration: .12s; }
+  .card:active .card__go { transform: translateX(3px); }
+  .card:active::before { transform: scaleX(1); }
+  .btn--ghost:hover { transform: none; }
+  .btn--primary:hover { transform: none; box-shadow: 0 12px 30px -12px rgba(109, 40, 255, .65); }
+}
+
+/* ---------- Cómo funciona: la línea se dibuja con el scroll ---------- */
+.m-steps .step__rail i { transform: scaleX(var(--f, 0)); transition: transform .14s linear; }
+@media (max-width: 860px) { .m-steps .step__rail i { transform: scaleY(var(--f, 0)); } }
+.m-steps .step__rail::before { transition: scale .55s var(--m-ease), opacity .4s ease; }
+.m-steps .step:not(.on) .step__rail::before { scale: .4; opacity: .35; }
+.m-steps .step:not(.on) .step__body > * { opacity: 0; }
+.m-steps .step.on .step__body > * { animation: mRiseSm .8s var(--m-ease) backwards; }
+.m-steps .step.on .step__body > :nth-child(2) { animation-delay: .09s; }
+.m-steps .step.on .step__body > :nth-child(3) { animation-delay: .18s; }
+.m-steps .step.on .step__num { transform-origin: left bottom; animation: mNum .9s var(--m-ease) backwards; }
+
+/* ---------- Preguntas frecuentes ---------- */
+.qa summary { transition: color .25s ease; }
+.qa summary .ico { transition: transform .4s var(--m-ease); }
+.qa.is-open summary, .qa[open]:not(.is-closing) summary { color: var(--purple); }
+.qa.is-closing summary { color: var(--ink); }
+.qa.is-closing summary .ico { transform: none; }
+.qa.is-open summary .ico { transform: rotate(45deg); }
+.qa p { margin: 0; }
+
+/* ---------- Botón flotante y chat de WhatsApp ---------- */
+.js .wa-float { animation: mWa .8s var(--m-ease) 1.8s backwards; }
+.wa-float:active { transform: scale(.95); }
+.wa-chat__panel[hidden] { display: block; visibility: hidden; opacity: 0; transform: translate3d(0, 12px, 0) scale(.97); pointer-events: none; transition: opacity .2s ease, transform .2s ease, visibility 0s linear .2s; }
+.wa-chips button:active, .wa-chat__send:not(:disabled):active { transform: scale(.95); }
+
+/* ---------- Consultar mi caso: ventana ---------- */
+.modal label { transition: color .2s ease; }
+.modal label:focus-within { color: var(--purple); }
+.form-error:not([hidden]) { animation: mShake .45s var(--m-ease); }
+.modal__body--result:not([hidden]) > * { animation: mRiseSm .7s var(--m-ease) calc(var(--n, 0) * 70ms) backwards; }
+.modal__body--result > :nth-child(1) { --n: 0; } .modal__body--result > :nth-child(2) { --n: 1; } .modal__body--result > :nth-child(3) { --n: 2; }
+.modal__body--result > :nth-child(4) { --n: 3; } .modal__body--result > :nth-child(5) { --n: 4; } .modal__body--result > :nth-child(6) { --n: 5; }
+.procs > .proc:nth-child(2) { animation-delay: .1s; }
+.proc__bar i { transform-origin: left; animation: mBar .6s var(--m-ease) .4s backwards; }
+.proc__bar i:nth-child(2) { animation-delay: .45s; } .proc__bar i:nth-child(3) { animation-delay: .5s; } .proc__bar i:nth-child(4) { animation-delay: .55s; }
+.proc__bar i:nth-child(5) { animation-delay: .6s; } .proc__bar i:nth-child(6) { animation-delay: .65s; } .proc__bar i:nth-child(7) { animation-delay: .7s; }
+@media (prefers-reduced-motion: no-preference) {
+  /* El cierre también se anima (donde el navegador lo permite; si no, cierra al instante) */
+  .modal { transition: opacity .22s ease, transform .22s var(--m-ease), overlay .22s allow-discrete, display .22s allow-discrete; }
+  .modal:not([open]) { opacity: 0; transform: translateY(10px) scale(.985); }
+  .modal::backdrop { transition: background .22s ease, backdrop-filter .22s ease, overlay .22s allow-discrete, display .22s allow-discrete; }
+  .modal:not([open])::backdrop { background: rgba(11, 8, 36, 0); backdrop-filter: blur(0); }
+}
+
+/* ---------- Pie de página: enlaces ---------- */
+.footer__nav a, .footer__contact a { background: linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat; transition: background-size .4s var(--m-ease), color .2s; padding-bottom: 2px; }
+.footer__nav a:hover, .footer__contact a:hover { background-size: 100% 1px; }
+.social a:active { transform: scale(.94); }
+
+/* ---------- Seguridad: si el JS falla o tarda, todo queda visible ---------- */
+.m-fallback .reveal, .m-fallback [data-hero], .m-fallback [data-hero] > li, .m-fallback [data-stagger] > *, .m-fallback [data-head] > .m-it,
+.m-fallback .mk__in, .m-fallback .ln__in, .m-fallback .nav .logo, .m-fallback .nav__cta, .m-fallback .nav__toggle, .m-fallback .nav__links > a {
+  opacity: 1 !important; transform: none !important; animation: none !important; clip-path: none !important;
+}
+.m-fallback .hero::after { scale: 1; }
+
+/* ---------- Movimiento reducido: todo visible, sin desplazamientos ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .reveal, [data-hero], [data-hero] > li, [data-stagger] > *, [data-head] > .m-it, .mk__in, .ln__in,
+  .nav .logo, .nav__cta, .nav__toggle, .nav__links > a, .consulta__price strong, .photo-slot img {
+    opacity: 1 !important; transform: none !important; animation: none !important; clip-path: none !important;
+  }
+  .hero::after, .hero__photo::before { animation: none !important; scale: 1 !important; translate: 0 0 !important; }
+  .hero__photo, .results__photo { translate: 0 0 !important; }
+  .btn--primary::after { display: none; }
+  .js .wa-float, .form-error, .modal__body--result > *, .proc__bar i, .m-steps .step__body > *, .m-steps .step__num { animation: none !important; }
+  .m-steps .step:not(.on) .step__body > * { opacity: 1; }
+  .m-steps .step__rail i { transform: none !important; transition: none; }
+  .m-steps .step:not(.on) .step__rail::before { scale: 1; opacity: 1; }
+  .card::before { display: none; }
+  .nav .nav__links > * { transition: none; }
+}
