@@ -9,7 +9,11 @@
   const PROCESO_API = (window.DATAFIN_PROCESO_API || '').trim();
   // Fecha desde la que se pueden consultar procesos en la web, por ejemplo '15 de noviembre de 2026'.
   // Vacía = el mensaje de «no encontrado» habla del «lanzamiento de este servicio» sin dar fecha.
-  const FECHA_LANZAMIENTO = '';
+  const FECHA_LANZAMIENTO = '16 de octubre de 2026';
+  // Espera máxima por cada intento al servicio (la primera llamada tras un rato sin uso puede tardar varios segundos).
+  const ESPERA_MAX_MS = 30000;
+  // Si la espera pasa de esto, se muestra «puede tardar unos segundos».
+  const AVISO_ESPERA_MS = 2500;
 
   const track = (n, p) => { if (window.datafinTrack) window.datafinTrack(n, p); };
   const $ = (s, c = document) => c.querySelector(s);
@@ -75,6 +79,7 @@
   const wrap = $('#caseFormWrap');
   const result = $('#caseResult');
   const submitBtn = $('#caseSubmit');
+  const espera = $('#caseWait');
   const codeToggle = $('#codeToggle');
   const waLink = (texto) => `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(texto)}`;
 
@@ -88,7 +93,7 @@
           descripcion: 'El juzgado ya tiene tu solicitud. Estamos esperando sus siguientes actuaciones.',
           proximoPaso: 'Esperar la decisión del juzgado', actualizado: '2026-09-29',
           etapas: ['Petición', 'Verificación', 'Desacato', 'Tutela', 'Impugnación', 'Revisión SIC', 'Cerrado'], etapaIndex: 3 },
-        { consecutivo: 'DF-2026-00001', tipo: 'Reporte negativo', etapa: 'Petición', subestado: 'Radicada',
+        { consecutivo: 'DF-2025-00000', tipo: 'Reporte negativo', etapa: 'Petición', subestado: 'Radicada',
           descripcion: 'Presentamos tu solicitud ante la entidad y esperamos su respuesta.',
           proximoPaso: 'Esperar la respuesta de la entidad', actualizado: '2026-10-02',
           etapas: ['Petición', 'Verificación', 'Desacato', 'Tutela', 'Impugnación', 'Revisión SIC', 'Cerrado'], etapaIndex: 0 },
@@ -110,8 +115,18 @@
     form.reset();
     setCodeVisible(false);
   };
+  // Al abrir la ventana se «despierta» el servicio con una llamada silenciosa (una sola vez por visita),
+  // así la consulta de verdad suele responder más rápido. No se hace al cargar la página para no
+  // llamar a Google por cada visitante que nunca consulta.
+  let despertado = false;
+  const despiertaServicio = () => {
+    if (!PROCESO_API || despertado) return;
+    despertado = true;
+    fetch(PROCESO_API, { method: 'GET', redirect: 'follow' }).catch(() => {});
+  };
   const openForm = () => {
     track('consulta_proceso_abrir');
+    despiertaServicio();
     showForm();
     if (typeof dialog.showModal === 'function') dialog.showModal(); else dialog.setAttribute('open', '');
     setTimeout(() => form.proceso.focus(), 60);
@@ -123,7 +138,7 @@
   }
   function showError(msg) { err.textContent = msg; err.hidden = false; }
 
-  // "130", "df2026130" o "DF-2026-00130" -> "DF-2026-00130"
+  // "df20260" o "DF-2026-0" -> "DF-2026-00000" (cualquier año de 4 dígitos; el consecutivo se completa a 5 cifras)
   const normalizaProceso = (v) => {
     const s = v.toUpperCase().replace(/[^A-Z0-9]/g, '');
     const m = s.match(/^DF(\d{4})(\d{1,5})$/);
@@ -171,7 +186,9 @@
   function muestraResultado(data, proceso) {
     result.replaceChildren();
     result.append(nodo('p', 'kicker', 'Estado de tu proceso'));
-    result.append(nodo('h2', '', data.nombre ? `Hola, ${data.nombre}` : 'Tu proceso'));
+    // El nombre viene del contacto en el CRM: a veces es un emoji o solo símbolos. Solo se usa si tiene letras.
+    const nombre = typeof data.nombre === 'string' ? data.nombre.trim() : '';
+    result.append(nodo('h2', '', /\p{L}/u.test(nombre) ? `Hola, ${nombre}` : 'Tu proceso'));
     result.append(nodo('p', 'muted', data.procesos.length > 1 ? 'Estos son tus procesos y en qué etapa va cada uno.' : 'Esto es lo que tenemos registrado de tu proceso.'));
     if (data.demo) result.append(nodo('p', 'proc__demo', 'Vista de ejemplo: estos datos no son reales. Así verás tu proceso cuando esté conectado.'));
     const lista = nodo('div', 'procs');
@@ -198,11 +215,25 @@
     }
     // Cuerpo como texto plano y sin encabezados propios: así el navegador no hace consulta previa (CORS)
     // y Google Apps Script responde. Apps Script contesta con una redirección, que fetch sigue solo.
-    const r = await fetch(PROCESO_API, {
-      method: 'POST', body: JSON.stringify({ proceso, codigo }), redirect: 'follow',
-    });
-    if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    return r.json();
+    const intento = async () => {
+      const ctl = new AbortController();
+      const corte = setTimeout(() => ctl.abort(), ESPERA_MAX_MS);
+      try {
+        const r = await fetch(PROCESO_API, {
+          method: 'POST', body: JSON.stringify({ proceso, codigo }), redirect: 'follow', signal: ctl.signal,
+        });
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return await r.json();
+      } finally { clearTimeout(corte); }
+    };
+    // Un fallo pasajero del servicio («error» o red) se reintenta una vez, con 1 s de pausa. Si se agotó la espera, no.
+    let data = null;
+    try { data = await intento(); } catch (e) { if (e.name === 'AbortError') throw e; }
+    if (!data || data.error === 'error') {
+      await new Promise((r) => setTimeout(r, 1000));
+      data = await intento();
+    }
+    return data;
   }
 
   document.addEventListener('click', (e) => {
@@ -221,13 +252,14 @@
     if (Date.now() < bloqueoHasta) return showError('Hiciste varios intentos. Espera un momento e inténtalo de nuevo.');
     const proceso = normalizaProceso(form.proceso.value);
     const codigo = form.codigo.value.trim().toUpperCase();
-    if (!proceso) return showError('Escribe tu número de proceso completo, por ejemplo DF-2026-00130.');
+    if (!proceso) return showError('Escribe tu número de proceso completo, por ejemplo DF-2026-00000.');
     if (codigo.length !== 6) return showError('Tu código de seguridad tiene 6 caracteres.');
     err.hidden = true;
     form.proceso.value = proceso;
 
     submitBtn.disabled = true;
     submitBtn.firstElementChild.textContent = 'Consultando…';
+    const avisoTimer = setTimeout(() => { espera.hidden = false; }, AVISO_ESPERA_MS);
     try {
       const data = await consulta(proceso, codigo);
       if (data && data.ok && Array.isArray(data.procesos) && data.procesos.length) {
@@ -249,6 +281,8 @@
     } catch (error) {
       showError('Ahora mismo no podemos consultarlo. Intenta de nuevo en unos minutos o escríbenos por WhatsApp.');
     } finally {
+      clearTimeout(avisoTimer);
+      espera.hidden = true;
       submitBtn.disabled = false;
       submitBtn.firstElementChild.textContent = 'Consultar mi caso';
     }

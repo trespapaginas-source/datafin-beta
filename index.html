@@ -576,7 +576,7 @@
     <p class="muted">Ingresa tu número de proceso y tu código de seguridad para ver cómo va tu caso.</p>
     <form id="caseForm" novalidate autocomplete="off">
       <label>Número de proceso
-        <input name="proceso" type="text" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="DF-2026-00130" maxlength="16" required>
+        <input name="proceso" type="text" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="DF-2026-00000" maxlength="16" required>
       </label>
       <label>Código de seguridad
         <span class="field-code">
@@ -586,6 +586,7 @@
       </label>
       <p class="modal__help">Te enviamos tu número de proceso y tu código por WhatsApp cuando iniciamos tu gestión.</p>
       <p class="form-error" id="caseError" role="alert" hidden></p>
+      <p class="modal__wait" id="caseWait" role="status" hidden>Consultando… puede tardar unos segundos.</p>
       <button class="btn btn--primary btn--lg btn--block" id="caseSubmit" type="submit"><span>Consultar mi caso</span> <svg class="ico ico--flat" aria-hidden="true"><use href="#i-arrow"/></svg></button>
     </form>
     <p class="modal__foot">¿Aún no tienes un proceso o no encuentras tu código? <a href="https://wa.me/573127045885?text=Hola%2C%20necesito%20ayuda%20para%20consultar%20mi%20proceso." target="_blank" rel="noopener">Escríbenos por WhatsApp</a>.</p>
@@ -600,7 +601,7 @@
   window.DATAFIN_TRACKING = { meta: '', tiktok: '', ga4: '' };
   /* Consulta de proceso: URL del servicio (Google Apps Script) que responde con el estado del proceso (ver backend/README.md).
      No cambiarla sin avisar a quien administra la hoja. Vacío = la consulta muestra "en preparación" y solo funciona con el ejemplo. */
-  window.DATAFIN_PROCESO_API = '';
+  window.DATAFIN_PROCESO_API = 'https://script.google.com/macros/s/AKfycbzhYu4X4HPY7tSy6Bfo5ZWJESfD5po2ajgLDg5I0cLS1vGSTLRr2ZFI1x9-vM1FNbYp/exec';
 </script>
 <script src="tracking.js"></script>
 <script src="main.js"></script>

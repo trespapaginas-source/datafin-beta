@@ -209,6 +209,9 @@ body { overflow-x: clip; }
   .modal:not([open])::backdrop { background: rgba(11, 8, 36, 0); backdrop-filter: blur(0); }
 }
 
+.modal__wait { margin: 0; font-size: .86rem; font-weight: 600; color: var(--muted); }
+.modal__wait:not([hidden]) { animation: mRiseSm .5s var(--m-ease) backwards; }
+
 /* ---------- Pie de página: enlaces ---------- */
 .footer__nav a, .footer__contact a { background: linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat; transition: background-size .4s var(--m-ease), color .2s; padding-bottom: 2px; }
 .footer__nav a:hover, .footer__contact a:hover { background-size: 100% 1px; }
