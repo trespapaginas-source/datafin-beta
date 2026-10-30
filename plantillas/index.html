@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{seo.titulo}}</title>
+  <meta name="description" content="{{seo.descripcion}}">
+  <meta name="theme-color" content="#0B0824">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta property="og:title" content="{{seo.og_titulo}}">
+  <meta property="og:description" content="{{seo.og_descripcion}}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Datafin Beta">
+  <meta property="og:url" content="https://datafinbeta.com/">
+  <meta property="og:locale" content="es_CO">
+  <link rel="canonical" href="https://datafinbeta.com/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Datafin Beta",
+    "legalName": "DATAFIN SOLUCIONES BETA",
+    "taxID": "1.143.142.682-2",
+    "url": "https://datafinbeta.com/",
+    "email": "{{ajustes.correo}}",
+    "telephone": "+{{ajustes.whatsapp}}",
+    "address": { "@type": "PostalAddress", "streetAddress": "{{ajustes.direccion}}", "addressLocality": "Barranquilla", "addressRegion": "Atlántico", "addressCountry": "CO" },
+    "openingHoursSpecification": { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "09:00", "closes": "17:00" },
+    "sameAs": ["{{ajustes.instagram}}", "{{ajustes.tiktok}}"]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/hero-web.webp" media="(min-width: 761px)">
+  <link rel="preload" as="image" href="assets/hero-movil.webp" media="(max-width: 760px)">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="motion.css">
+  <script>document.documentElement.classList.add('js');window.__mf=setTimeout(function(){document.documentElement.classList.add('m-fallback')},3500)</script>
+</head>
+<body>
+
+<!-- ============================================================
+     SPRITE: gradientes, sombras e iconos Tabler (outline, stroke 2)
+     El degradado se aplica directamente al stroke (clase .ico)
+     ============================================================ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="dfGrad" gradientUnits="userSpaceOnUse" x1="2" y1="22" x2="22" y2="2">
+      <stop offset="0" stop-color="#6D28FF"/><stop offset=".52" stop-color="#D946EF"/><stop offset="1" stop-color="#FF7A21"/>
+    </linearGradient>
+    <linearGradient id="gP" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6D28FF"/><stop offset="1" stop-color="#D946EF"/></linearGradient>
+    <linearGradient id="gO" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF9A3D"/><stop offset="1" stop-color="#FF7A21"/></linearGradient>
+    <linearGradient id="gN" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2A2170"/><stop offset="1" stop-color="#0B0824"/></linearGradient>
+    <linearGradient id="gAll" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#6D28FF"/><stop offset=".55" stop-color="#D946EF"/><stop offset="1" stop-color="#FF7A21"/></linearGradient>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#6D28FF" flood-opacity=".22"/></filter>
+
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0-4 0m-2 8v-1a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1M15 5a2 2 0 1 0 4 0a2 2 0 0 0-4 0m2 5h2a2 2 0 0 1 2 2v1M5 5a2 2 0 1 0 4 0a2 2 0 0 0-4 0m-2 8v-1a2 2 0 0 1 2-2h2"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 17.75l-6.172 3.245l1.179-6.873l-5-4.867l6.9-1l3.086-6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 13a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1zm12-4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1zM9 5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1zM4 20h14"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M11.46 20.846A12 12 0 0 1 3.5 6A12 12 0 0 0 12 3a12 12 0 0 0 8.5 3a12 12 0 0 1-.09 7.06M15 19l2 2l4-4"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0-18 0"/><path d="M12 7v5l3 3"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><path d="M5 13a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0-2 0m-3-5V7a4 4 0 1 1 8 0v4"/></symbol>
+    <symbol id="i-usercheck" viewBox="0 0 24 24"><path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0-8 0M6 21v-2a4 4 0 0 1 4-4h4m1 4l2 2l4-4"/></symbol>
+    <symbol id="i-scale" viewBox="0 0 24 24"><path d="M7 20h10M6 6l6-1l6 1m-6-3v17m-3-8L6 6l-3 6a3 3 0 0 0 6 0m12 0l-3-6l-3 6a3 3 0 0 0 6 0"/></symbol>
+    <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="m3 21l1.65-3.8a9 9 0 1 1 3.4 2.9z"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0za5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6 6l6-6m-6-6l6 6"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14m-7-7h14"/></symbol>
+    <symbol id="i-insta" viewBox="0 0 24 24"><path d="M3 7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><path d="M8.5 12a3.5 3.5 0 1 0 7 0a3.5 3.5 0 0 0-7 0M17 7v.01"/></symbol>
+    <symbol id="i-tiktok" viewBox="0 0 24 24"><path d="M21 7.917v4.034A9.95 9.95 0 0 1 16 10v4.5a6.5 6.5 0 1 1-8-6.326V12.5a2.5 2.5 0 1 0 4 2V3h4.083A6.005 6.005 0 0 0 21 7.917"/></symbol>
+    <symbol id="i-youtube" viewBox="0 0 24 24"><path d="M2 8a4 4 0 0 1 4-4h12a4 4 0 0 1 4 4v8a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4z"/><path d="m10 9l5 3l-5 3z"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M8 11v5m0-8v.01M12 16v-5m4 5v-3a2 2 0 1 0-4 0"/><path d="M3 7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/></symbol>
+    <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M7 10v4h3v7h4v-7h3l1-4h-4V8a1 1 0 0 1 1-1h3V3h-3a5 5 0 0 0-5 5v2z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="m3 7l9 6l9-6"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0-6 0"/><path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1-2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M10 14l11-11"/><path d="M21 3l-6.5 18a.55.55 0 0 1-1 0l-3.5-7l-7-3.5a.55.55 0 0 1 0-1z"/></symbol>
+    <symbol id="i-checks" viewBox="0 0 24 24"><path d="M7 12l5 5l10-10"/><path d="M2 12l5 5m5-5l5-5"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+    <symbol id="i-headset" viewBox="0 0 24 24"><path d="M4 14v-3a8 8 0 1 1 16 0v3m-2 5c0 1.657-2.686 3-6 3"/><path d="M4 14a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm11 0a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3l7 3M4 10v11m16-11v11M8 14v3m4-3v3m4-3v3"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0-18 0"/><path d="m9 12l2 2l4-4"/></symbol>
+  </defs>
+</svg>
+
+<a class="skip" href="#contenido">Saltar al contenido</a>
+
+<!-- ============================ NAVBAR ============================ -->
+<header class="nav" id="nav">
+  <div class="container nav__in">
+    <a class="logo" href="#inicio" aria-label="Datafin Beta, inicio"><img src="assets/logo/logo-oficial-blanco.png" alt="datafin" width="720" height="183"><b>beta</b></a>
+    <nav class="nav__links" id="navLinks" aria-label="Principal">
+      <a href="#inicio">Inicio</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#resultados">Seguimiento</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contacto">Contacto</a>
+      <a href="legal/">Legal</a>
+      <button class="btn btn--primary btn--sm nav__cta-mobile" data-open-proceso type="button">Consultar mi caso <svg class="ico ico--flat" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+    </nav>
+    <button class="btn btn--primary btn--sm nav__cta" data-open-proceso type="button">Consultar mi caso <svg class="ico ico--flat" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+    <button class="nav__toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="Abrir menú">
+      <svg class="ico ico--flat" aria-hidden="true"><use href="#i-menu"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="contenido">
+
+<!-- ============================== HERO ============================== -->
+<section class="hero" id="inicio" data-parallax=".14" data-max="56">
+  <div class="container hero__in">
+    <div class="hero__copy">
+      <p class="eyebrow" data-hero="eyebrow">{{inicio.etiqueta}}</p>
+      <h1 data-hero="title">{{h1:inicio.titular}}</h1>
+      <p class="hero__lead" data-hero="lead">{{inicio.parrafo}}</p>
+      <div class="hero__ctas" data-hero="ctas">
+        <button class="btn btn--primary btn--lg" data-open-proceso type="button">Consultar mi caso <svg class="ico ico--flat" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+        <a class="btn btn--ghost btn--lg" href="https://wa.me/{{ajustes.whatsapp}}?text=Hola%2C%20quiero%20hablar%20con%20un%20asesor%20de%20Datafin%20Beta." target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-whatsapp"/></svg> Hablar con un asesor</a>
+      </div>
+      <ul class="hero__trust" data-hero="trust">
+        <li><svg class="ico" aria-hidden="true"><use href="#i-lock"/></svg>{{inicio.punto_1}}</li>
+        <li><svg class="ico" aria-hidden="true"><use href="#i-usercheck"/></svg>{{inicio.punto_2}}</li>
+        <li><svg class="ico" aria-hidden="true"><use href="#i-scale"/></svg>{{inicio.punto_3}}</li>
+        <li><svg class="ico" aria-hidden="true"><use href="#i-headset"/></svg>{{inicio.punto_4}}</li>
+      </ul>
+    </div>
+
+    <!-- Foto del equipo: coloca assets/equipo.png (ideal PNG recortado) o .jpg/.webp -->
+    <div class="hero__photo photo-slot" data-hero="photo" data-parallax=".07" data-max="40" data-photo="equipo" data-label="Foto del equipo Datafin Beta"></div>
+  </div>
+</section>
+
+<!-- =========================== MÉTRICAS =========================== -->
+<div class="container metrics-wrap reveal" data-after-hero>
+  <ul class="metrics" data-stagger data-after-hero=".15">
+    <li><svg class="ico ico--lg" aria-hidden="true"><use href="#i-users"/></svg><div><strong>{{cifras.cifra_1.titulo}}</strong><span>{{cifras.cifra_1.texto}}</span></div></li>
+    <li><svg class="ico ico--lg" aria-hidden="true"><use href="#i-usercheck"/></svg><div><strong>{{cifras.cifra_2.titulo}}</strong><span>{{cifras.cifra_2.texto}}</span></div></li>
+    <li><svg class="ico ico--lg" aria-hidden="true"><use href="#i-bank"/></svg><div><strong>{{cifras.cifra_3.titulo}}</strong><span>{{cifras.cifra_3.texto}}</span></div></li>
+    <li><svg class="ico ico--lg" aria-hidden="true"><use href="#i-clock"/></svg><div><strong>{{cifras.cifra_4.titulo}}</strong><span>{{cifras.cifra_4.texto}}</span></div></li>
+  </ul>
+</div>
+
+<!-- ======================= CONSULTA GENERAL (PRODUCTO DE ENTRADA) ======================= -->
+<section class="section section--consulta" id="consulta">
+  <div class="container">
+    <div class="consulta reveal" data-reveal="scale">
+      <div class="consulta__copy" data-head style="--d:.1s">
+        <p class="eyebrow">{{consulta.etiqueta}}</p>
+        <h2>{{grad:consulta.titular}}</h2>
+        <p class="consulta__lead">{{consulta.parrafo}}</p>
+        <ul class="consulta__list" data-stagger style="--d:.45s">
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>{{md:consulta.punto_1}}</span></li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>{{md:consulta.punto_2}}</span></li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg><span>{{md:consulta.punto_3}}</span></li>
+        </ul>
+        <p class="consulta__note">{{consulta.nota}}</p>
+      </div>
+      <div class="consulta__buy reveal" style="--d:.3s">
+        <p class="consulta__tag">{{consulta.etiqueta_precio}}</p>
+        <p class="consulta__price"><strong>{{precio:ajustes.precio_consulta_general}}</strong><span>COP</span></p>
+        <a class="btn btn--primary btn--lg btn--block" href="https://wa.me/{{ajustes.whatsapp}}?text=Hola%2C%20quiero%20hacer%20la%20Consulta%20General%20de%20mi%20historial%20crediticio." target="_blank" rel="noopener" data-track="consulta_general">Quiero mi Consulta General <svg class="ico ico--flat" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <p class="consulta__alt">{{md:consulta.alternativa}} <a href="https://wa.me/{{ajustes.whatsapp}}?text=Hola%2C%20quiero%20consultar%20solo%20un%20historial%20%28Datacr%C3%A9dito%20o%20CIFIN%29." target="_blank" rel="noopener" data-track="consulta_un_historial">Pedir uno</a></p>
+        <p class="consulta__req">Primero te enviamos por WhatsApp la autorización para que la leas y la aceptes; solo después te pedimos una foto del frente de tu documento, que usamos para identificarte y consultar tu historial. Nunca te pedimos contraseñas ni claves. <a href="legal/tratamiento-de-datos/" target="_blank" rel="noopener">Cómo tratamos tus datos</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= CÓMO FUNCIONA ========================= -->
+<section class="section" id="como-funciona">
+  <div class="container">
+    <header class="section__head section__head--center" data-head>
+      <p class="kicker">{{pasos.etiqueta}}</p>
+      <h2>{{pasos.titulo}}</h2>
+      <p class="muted">{{pasos.subtitulo}}</p>
+    </header>
+
+    <ol class="steps" id="steps">
+      <li class="step" style="--i:0;--c1:#6D28FF;--c2:#9B2CFF">
+        <div class="step__rail"><i></i></div>
+        <div class="step__body">
+          <span class="step__num grad-text">01</span>
+          <h3>{{pasos.paso_1.titulo}}</h3>
+          <p>{{pasos.paso_1.texto}}</p>
+        </div>
+      </li>
+      <li class="step" style="--i:1;--c1:#9B2CFF;--c2:#D946EF">
+        <div class="step__rail"><i></i></div>
+        <div class="step__body">
+          <span class="step__num grad-text">02</span>
+          <h3>{{pasos.paso_2.titulo}}</h3>
+          <p>{{pasos.paso_2.texto}}</p>
+        </div>
+      </li>
+      <li class="step" style="--i:2;--c1:#D946EF;--c2:#FF7A21">
+        <div class="step__rail"><i></i></div>
+        <div class="step__body">
+          <span class="step__num grad-text">03</span>
+          <h3>{{pasos.paso_3.titulo}}</h3>
+          <p>{{pasos.paso_3.texto}}</p>
+        </div>
+      </li>
+      <li class="step" style="--i:3;--c1:#FF7A21;--c2:#FF7A21">
+        <div class="step__rail"><i></i></div>
+        <div class="step__body">
+          <span class="step__num grad-text">04</span>
+          <h3>{{pasos.paso_4.titulo}}</h3>
+          <p>{{pasos.paso_4.texto}}</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================ RESULTADOS ============================ -->
+<section class="results" id="resultados">
+  <div class="container results__in">
+    <div class="results__copy" data-head>
+      <p class="eyebrow">{{seguimiento.etiqueta}}</p>
+      <h2>{{grad:seguimiento.titular}}</h2>
+      <p class="results__lead">{{seguimiento.parrafo}}</p>
+
+      <ul class="results__stats" data-stagger style="--d:.4s">
+        <li><svg class="ico ico--lg" aria-hidden="true"><use href="#i-users"/></svg><strong>{{seguimiento.dato_1.titulo}}</strong><span>{{seguimiento.dato_1.texto}}</span></li>
+        <li><svg class="ico ico--lg" aria-hidden="true"><use href="#i-bank"/></svg><strong>{{seguimiento.dato_2.titulo}}</strong><span>{{seguimiento.dato_2.texto}}</span></li>
+        <li><svg class="ico ico--lg" aria-hidden="true"><use href="#i-usercheck"/></svg><strong>{{seguimiento.dato_3.titulo}}</strong><span>{{seguimiento.dato_3.texto}}</span></li>
+        <li><svg class="ico ico--lg" aria-hidden="true"><use href="#i-shield"/></svg><strong>{{seguimiento.dato_4.titulo}}</strong><span>{{seguimiento.dato_4.texto}}</span></li>
+      </ul>
+    </div>
+
+    <!-- Foto de la asesora: coloca assets/asesora.png (ideal PNG recortado) o .jpg/.webp -->
+    <div class="results__photo photo-slot reveal" data-reveal="photo" style="--d:.15s" data-parallax="48" data-mode="rise" data-photo="asesora" data-label="Foto de la asesora con tablet"></div>
+  </div>
+</section>
+
+<!-- ============================ SERVICIOS ============================ -->
+<section class="section section--tint" id="servicios">
+  <div class="container">
+    <header class="section__head section__head--split">
+      <div data-head>
+        <p class="kicker">{{servicios.etiqueta}}</p>
+        <h2>{{servicios.titulo}}</h2>
+        <p class="muted">{{servicios.subtitulo}}</p>
+      </div>
+      <a class="link-arrow reveal" style="--d:.35s" href="https://wa.me/{{ajustes.whatsapp}}?text=Hola%2C%20no%20s%C3%A9%20qu%C3%A9%20servicio%20necesito.%20%C2%BFMe%20pueden%20orientar%3F" target="_blank" rel="noopener">No sé cuál elegir <svg class="ico ico--flat" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    </header>
+
+    <div class="services" data-stagger>
+
+      <!-- 01 Historial -->
+      <a class="card" href="https://wa.me/{{ajustes.whatsapp}}?text={{wa:servicios.historial.mensaje}}" target="_blank" rel="noopener">
+        <div class="card__ill">
+          <svg viewBox="0 0 260 170" role="img" aria-label="Documento con gráfico de barras y sello PDF">
+            <ellipse cx="130" cy="158" rx="88" ry="7" fill="#6D28FF" opacity=".10"/>
+            <g filter="url(#sh)"><rect x="74" y="12" width="112" height="142" rx="14" fill="#fff" stroke="#E9E5F4"/></g>
+            <rect x="90" y="30" width="46" height="8" rx="4" fill="url(#gN)"/>
+            <rect x="90" y="45" width="72" height="5" rx="2.5" fill="#E9E5F4"/>
+            <rect x="92" y="94" width="14" height="20" rx="4" fill="url(#gP)"/>
+            <rect x="112" y="82" width="14" height="32" rx="4" fill="url(#gP)"/>
+            <rect x="132" y="70" width="14" height="44" rx="4" fill="url(#gP)"/>
+            <rect x="152" y="58" width="14" height="56" rx="4" fill="url(#gO)"/>
+            <path d="M90 118H170" stroke="#E9E5F4" stroke-width="2" stroke-linecap="round"/>
+            <g filter="url(#sh)"><rect x="150" y="124" width="58" height="30" rx="10" fill="url(#gO)"/></g>
+            <text x="179" y="145" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="15" fill="#fff">PDF</text>
+            <circle cx="72" cy="40" r="15" fill="url(#gP)"/>
+            <path d="m65.5 40.5l4.5 4.5l8-9" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="card__num">01</span>
+        <h3>{{servicios.historial.titulo}}</h3>
+        <p>{{servicios.historial.descripcion}}</p>
+        <span class="card__more">Escríbenos <i class="card__go"><svg class="ico ico--flat" aria-hidden="true"><use href="#i-arrow"/></svg></i></span>
+      </a>
+
+      <!-- 02 Telefonía -->
+      <a class="card" style="--d:.06s" href="https://wa.me/{{ajustes.whatsapp}}?text={{wa:servicios.telefonia.mensaje}}" target="_blank" rel="noopener">
+        <div class="card__ill">
+          <svg viewBox="0 0 260 170" role="img" aria-label="Smartphone con reporte, antena y alerta">
+            <ellipse cx="130" cy="158" rx="92" ry="7" fill="#6D28FF" opacity=".10"/>
+            <g transform="rotate(-9 82 90)" filter="url(#sh)"><rect x="40" y="34" width="84" height="108" rx="12" fill="#fff" stroke="#E9E5F4"/></g>
+            <g transform="rotate(-9 82 90)"><rect x="54" y="52" width="40" height="7" rx="3.5" fill="url(#gN)"/><rect x="54" y="66" width="56" height="5" rx="2.5" fill="#E9E5F4"/><rect x="54" y="78" width="46" height="5" rx="2.5" fill="#E9E5F4"/></g>
+            <g filter="url(#sh)"><rect x="100" y="12" width="78" height="142" rx="17" fill="url(#gN)"/></g>
+            <rect x="106" y="22" width="66" height="122" rx="11" fill="#fff"/>
+            <rect x="106" y="22" width="66" height="40" rx="11" fill="url(#gP)"/>
+            <rect x="106" y="40" width="66" height="22" fill="url(#gP)"/>
+            <rect x="124" y="16" width="30" height="4" rx="2" fill="#0B0824"/>
+            <rect x="116" y="30" width="30" height="6" rx="3" fill="#fff" opacity=".9"/>
+            <rect x="116" y="42" width="44" height="5" rx="2.5" fill="#fff" opacity=".55"/>
+            <rect x="116" y="74" width="46" height="26" rx="8" fill="#F3EFFF"/>
+            <rect x="116" y="108" width="46" height="26" rx="8" fill="#F3EFFF"/>
+            <rect x="122" y="82" width="20" height="4" rx="2" fill="#6D28FF"/><rect x="122" y="90" width="30" height="4" rx="2" fill="#CFC6EE"/>
+            <rect x="122" y="116" width="24" height="4" rx="2" fill="#6D28FF"/><rect x="122" y="124" width="32" height="4" rx="2" fill="#CFC6EE"/>
+            <path d="M212 152L205 74M198 152L205 74M200 132H210" fill="none" stroke="url(#gN)" stroke-width="3.4" stroke-linecap="round"/>
+            <circle cx="205" cy="66" r="7" fill="url(#gO)"/>
+            <path d="M192 56Q186 66 192 76M218 56Q224 66 218 76M184 48Q173 66 184 84M226 48Q237 66 226 84" fill="none" stroke="url(#gP)" stroke-width="3.2" stroke-linecap="round"/>
+            <g filter="url(#sh)"><path d="M172 112L186 138H158Z" fill="url(#gO)" stroke="url(#gO)" stroke-width="7" stroke-linejoin="round"/></g>
+            <path d="M172 121v7" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/><circle cx="172" cy="132.4" r="1.8" fill="#fff"/>
+          </svg>
+        </div>
+        <span class="card__num">02</span>
+        <h3>{{servicios.telefonia.titulo}}</h3>
+        <p>{{servicios.telefonia.descripcion}}</p>
+        <span class="card__more">Escríbenos <i class="card__go"><svg class="ico ico--flat" aria-hidden="true"><use href="#i-arrow"/></svg></i></span>
+      </a>
+
+      <!-- 03 Financieras -->
+      <a class="card" style="--d:.12s" href="https://wa.me/{{ajustes.whatsapp}}?text={{wa:servicios.financieras.mensaje}}" target="_blank" rel="noopener">
+        <div class="card__ill">
+          <svg viewBox="0 0 260 170" role="img" aria-label="Documento, entidad financiera, alerta y monedas">
+            <ellipse cx="130" cy="158" rx="92" ry="7" fill="#6D28FF" opacity=".10"/>
+            <g transform="rotate(7 88 84)" filter="url(#sh)"><rect x="48" y="26" width="80" height="112" rx="12" fill="#fff" stroke="#E9E5F4"/></g>
+            <g transform="rotate(7 88 84)"><rect x="62" y="44" width="38" height="7" rx="3.5" fill="url(#gN)"/><rect x="62" y="58" width="52" height="5" rx="2.5" fill="#E9E5F4"/><rect x="62" y="70" width="42" height="5" rx="2.5" fill="#E9E5F4"/></g>
+            <g filter="url(#sh)">
+              <path d="M104 74L148 42L192 74Z" fill="url(#gP)" stroke="url(#gP)" stroke-width="6" stroke-linejoin="round"/>
+              <rect x="102" y="74" width="92" height="9" rx="4.5" fill="url(#gN)"/>
+              <rect x="110" y="86" width="13" height="42" rx="6" fill="#fff" stroke="#E9E5F4"/>
+              <rect x="130" y="86" width="13" height="42" rx="6" fill="#fff" stroke="#E9E5F4"/>
+              <rect x="150" y="86" width="13" height="42" rx="6" fill="#fff" stroke="#E9E5F4"/>
+              <rect x="170" y="86" width="13" height="42" rx="6" fill="#fff" stroke="#E9E5F4"/>
+              <rect x="98" y="131" width="100" height="10" rx="5" fill="url(#gN)"/>
+            </g>
+            <circle cx="148" cy="62" r="5" fill="#fff" opacity=".9"/>
+            <circle cx="76" cy="44" r="15" fill="url(#gO)"/>
+            <path d="M76 36v10" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/><circle cx="76" cy="52" r="2" fill="#fff"/>
+            <g>
+              <ellipse cx="218" cy="140" rx="20" ry="7" fill="url(#gO)" stroke="#fff" stroke-width="2"/>
+              <ellipse cx="218" cy="132" rx="20" ry="7" fill="url(#gO)" stroke="#fff" stroke-width="2"/>
+              <ellipse cx="218" cy="124" rx="20" ry="7" fill="url(#gO)" stroke="#fff" stroke-width="2"/>
+              <text x="218" y="127" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="9" fill="#fff">$</text>
+            </g>
+          </svg>
+        </div>
+        <span class="card__num">03</span>
+        <h3>{{servicios.financieras.titulo}}</h3>
+        <p>{{servicios.financieras.descripcion}}</p>
+        <span class="card__more">Escríbenos <i class="card__go"><svg class="ico ico--flat" aria-hidden="true"><use href="#i-arrow"/></svg></i></span>
+      </a>
+
+      <!-- 04 SIMIT -->
+      <a class="card" href="https://wa.me/{{ajustes.whatsapp}}?text={{wa:servicios.simit.mensaje}}" target="_blank" rel="noopener">
+        <div class="card__ill">
+          <svg viewBox="0 0 260 170" role="img" aria-label="Semáforo, documento SIMIT y vehículo">
+            <ellipse cx="130" cy="160" rx="100" ry="6" fill="#6D28FF" opacity=".10"/>
+            <g filter="url(#sh)"><rect x="52" y="14" width="46" height="118" rx="17" fill="url(#gN)"/><rect x="71" y="130" width="8" height="22" rx="3" fill="url(#gN)"/></g>
+            <circle cx="75" cy="40" r="11" fill="url(#gO)"/>
+            <circle cx="75" cy="73" r="11" fill="#3A2F8F"/>
+            <circle cx="75" cy="106" r="11" fill="#3A2F8F"/>
+            <g filter="url(#sh)"><rect x="112" y="26" width="102" height="98" rx="12" fill="#fff" stroke="#E9E5F4"/></g>
+            <path d="M112 38a12 12 0 0 1 12-12h78a12 12 0 0 1 12 12v16H112z" fill="url(#gP)"/>
+            <text x="163" y="46" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="14" letter-spacing="1.5" fill="#fff">SIMIT</text>
+            <rect x="126" y="68" width="50" height="6" rx="3" fill="url(#gN)"/>
+            <rect x="126" y="82" width="74" height="5" rx="2.5" fill="#E9E5F4"/>
+            <rect x="126" y="94" width="60" height="5" rx="2.5" fill="#E9E5F4"/>
+            <circle cx="198" cy="106" r="10" fill="url(#gO)"/><path d="m193.5 106l3.2 3.2l5.8-6.4" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <g transform="translate(170 144)" filter="url(#sh)">
+              <path d="M-26 -16l8 -14q2 -3 6 -3h24q4 0 6 3l10 14z" fill="url(#gP)"/>
+              <path d="M-18 -17l6 -11h12v11zM4 -17v-11h10l7 11z" fill="#fff" opacity=".85"/>
+              <rect x="-44" y="-18" width="88" height="20" rx="9" fill="url(#gO)"/>
+              <circle cx="-24" cy="3" r="9" fill="url(#gN)"/><circle cx="-24" cy="3" r="3.2" fill="#fff"/>
+              <circle cx="24" cy="3" r="9" fill="url(#gN)"/><circle cx="24" cy="3" r="3.2" fill="#fff"/>
+            </g>
+          </svg>
+        </div>
+        <span class="card__num">04</span>
+        <h3>{{servicios.simit.titulo}}</h3>
+        <p>{{servicios.simit.descripcion}}</p>
+        <span class="card__more">Escríbenos <i class="card__go"><svg class="ico ico--flat" aria-hidden="true"><use href="#i-arrow"/></svg></i></span>
+      </a>
+
+      <!-- 05 Fortalecimiento -->
+      <a class="card" style="--d:.06s" href="https://wa.me/{{ajustes.whatsapp}}?text={{wa:servicios.fortalecimiento.mensaje}}" target="_blank" rel="noopener">
+        <div class="card__ill">
+          <svg viewBox="0 0 260 170" role="img" aria-label="Medidor de puntaje, crecimiento y perfil verificado">
+            <ellipse cx="130" cy="158" rx="100" ry="7" fill="#6D28FF" opacity=".10"/>
+            <path d="M32 112A64 64 0 0 1 160 112" fill="none" stroke="#E9E5F4" stroke-width="16" stroke-linecap="round"/>
+            <path d="M32 112A64 64 0 0 1 141.3 66.7" fill="none" stroke="url(#gAll)" stroke-width="16" stroke-linecap="round"/>
+            <path d="M96 112L128.5 79.5" stroke="url(#gN)" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="96" cy="112" r="10" fill="url(#gN)"/><circle cx="96" cy="112" r="3.6" fill="#fff"/>
+            <path d="M174 54L192 38l12 8l26-24" fill="none" stroke="url(#gO)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M218 22h12v12" fill="none" stroke="url(#gO)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <g filter="url(#sh)"><rect x="150" y="100" width="92" height="54" rx="14" fill="#fff" stroke="#E9E5F4"/></g>
+            <circle cx="172" cy="122" r="11" fill="url(#gP)"/>
+            <circle cx="172" cy="119" r="3.6" fill="#fff"/><path d="M165.5 128.5q6.5-6 13 0" fill="#fff"/>
+            <rect x="190" y="113" width="38" height="6" rx="3" fill="url(#gN)"/>
+            <rect x="190" y="125" width="26" height="5" rx="2.5" fill="#E9E5F4"/>
+            <rect x="162" y="141" width="68" height="5" rx="2.5" fill="#E9E5F4"/>
+            <circle cx="238" cy="102" r="13" fill="url(#gO)"/>
+            <path d="m232 102l4.4 4.4l8-8.8" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="card__num">05</span>
+        <h3>{{servicios.fortalecimiento.titulo}}</h3>
+        <p>{{servicios.fortalecimiento.descripcion}}</p>
+        <span class="card__more">Escríbenos <i class="card__go"><svg class="ico ico--flat" aria-hidden="true"><use href="#i-arrow"/></svg></i></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== BANNER DE ASESORÍA ======================== -->
+<section class="section section--tight">
+  <div class="container">
+    <div class="advisor reveal" data-reveal="scale">
+      <div class="advisor__bg" aria-hidden="true"></div>
+      <div class="advisor__copy" data-head style="--d:.12s">
+        <p class="eyebrow">{{asesoria.etiqueta}}</p>
+        <h2>{{grad:asesoria.titular}}</h2>
+        <p class="advisor__lead">{{asesoria.parrafo}}</p>
+        <a class="btn btn--primary btn--lg" href="https://wa.me/{{ajustes.whatsapp}}?text=Hola%2C%20no%20s%C3%A9%20qu%C3%A9%20servicio%20necesito.%20%C2%BFMe%20pueden%20orientar%3F" target="_blank" rel="noopener">Hablar con un asesor <svg class="ico ico--flat" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ QUIÉNES SOMOS ============================ -->
+<section class="section" id="nosotros">
+  <div class="container about">
+    <div class="about__copy" data-head>
+      <p class="kicker">{{nosotros.etiqueta}}</p>
+      <h2>{{nosotros.titular}}</h2>
+      <p class="about__lead">{{nosotros.parrafo}}</p>
+      <p class="muted about__aviso">Datafin Beta es una empresa privada e independiente, sin vínculo con Datacrédito, CIFIN ni entidades del Estado. Los resultados dependen de cada caso.</p>
+      <div class="about__cta">
+        <a class="btn btn--primary btn--lg" href="https://wa.me/{{ajustes.whatsapp}}?text=Hola%2C%20quiero%20hablar%20con%20un%20asesor%20de%20Datafin%20Beta." target="_blank" rel="noopener" data-track="nosotros">Hablar con un asesor <svg class="ico ico--flat" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <a class="link-arrow" href="legal/">Documentos legales <svg class="ico ico--flat" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+    <ul class="about__facts" data-stagger style="--d:.15s">
+      <li class="fact"><svg class="ico ico--lg" aria-hidden="true"><use href="#i-shield"/></svg><div><strong>Empresa registrada</strong><span>Datafin Soluciones Beta<br>NIT <span style="white-space:nowrap">1.143.142.682-2</span><br>Matrícula mercantil 942.952, Cámara de Comercio de Barranquilla</span></div></li>
+      <li class="fact"><svg class="ico ico--lg" aria-hidden="true"><use href="#i-pin"/></svg><div><strong>Nuestra sede</strong><span>{{ajustes.direccion}}<br>{{ajustes.ciudad}}</span></div></li>
+      <li class="fact"><svg class="ico ico--lg" aria-hidden="true"><use href="#i-clock"/></svg><div><strong>Atención presencial con cita</strong><span>{{ajustes.horario_quienes_somos}}</span></div></li>
+      <li class="fact"><svg class="ico ico--lg" aria-hidden="true"><use href="#i-whatsapp"/></svg><div><strong>{{nosotros.cobertura_titulo}}</strong><span>{{nosotros.cobertura_texto}}</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================================ FAQ ================================ -->
+<section class="section section--tint" id="faq">
+  <div class="container">
+    <header class="section__head section__head--center" data-head>
+      <p class="kicker">{{faq.etiqueta}}</p>
+      <h2>{{faq.titulo}}</h2>
+      <p class="muted">{{faq.subtitulo}}</p>
+    </header>
+
+    <div class="faq" data-stagger>
+{{#each faq.preguntas}}      <details class="qa">
+        <summary>{{.pregunta}}<svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg></summary>
+        <p>{{md:.respuesta}}</p>
+      </details>
+{{/each}}    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================== FOOTER ============================== -->
+<footer class="footer" id="contacto">
+  <div class="container">
+    <div class="footer__top" data-stagger>
+      <div class="footer__brand">
+        <a class="logo" href="#inicio" aria-label="Datafin Beta, inicio"><img src="assets/logo/logo-oficial-blanco.png" alt="datafin" width="720" height="183"><b>beta</b></a>
+        <p>{{md:pie.lema}}</p>
+        <ul class="social" aria-label="Redes sociales">
+          <li><a href="{{ajustes.instagram}}" target="_blank" rel="noopener" aria-label="Instagram @datafinbeta"><svg class="ico ico--flat" aria-hidden="true"><use href="#i-insta"/></svg></a></li>
+          <li><a href="{{ajustes.tiktok}}" target="_blank" rel="noopener" aria-label="TikTok @datafin.soluciones"><svg class="ico ico--flat" aria-hidden="true"><use href="#i-tiktok"/></svg></a></li>
+          <li><a href="{{ajustes.facebook}}" target="_blank" rel="noopener" aria-label="Facebook Soluciones beta datafin"><svg class="ico ico--flat" aria-hidden="true"><use href="#i-facebook"/></svg></a></li>
+        </ul>
+      </div>
+      <nav class="footer__nav" aria-label="Pie de página">
+        <a href="#inicio">Inicio</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#resultados">Seguimiento</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://wa.me/{{ajustes.whatsapp}}?text=Hola%2C%20quiero%20contactar%20al%20equipo%20de%20Datafin%20Beta." target="_blank" rel="noopener">Contacto</a>
+        <a href="legal/">Legal</a>
+      </nav>
+      <address class="footer__contact">
+        <p class="footer__h">Contacto</p>
+        <ul>
+          <li><svg class="ico ico--flat" aria-hidden="true"><use href="#i-whatsapp"/></svg><a href="https://wa.me/{{ajustes.whatsapp}}?text=Hola%2C%20quiero%20consultar%20mi%20caso%20en%20Datafin%20Beta." target="_blank" rel="noopener">{{ajustes.whatsapp_visible}}</a></li>
+          <li><svg class="ico ico--flat" aria-hidden="true"><use href="#i-mail"/></svg><a href="mailto:{{ajustes.correo}}">{{ajustes.correo}}</a></li>
+          <li><svg class="ico ico--flat" aria-hidden="true"><use href="#i-pin"/></svg><span>{{ajustes.direccion}}<br>{{ajustes.ciudad}}</span></li>
+          <li><svg class="ico ico--flat" aria-hidden="true"><use href="#i-clock"/></svg><span>{{ajustes.horario_pie}}<br>Atención presencial con cita</span></li>
+        </ul>
+      </address>
+    </div>
+    <div class="footer__bottom">
+      <p>© 2026 Datafin Soluciones Beta · NIT 1.143.142.682-2 · Matrícula mercantil 942.952, Cámara de Comercio de Barranquilla.<br>Todos los derechos reservados.<br>Datafin Beta es una empresa privada e independiente, sin vínculo con Datacrédito, CIFIN ni entidades del Estado. Los resultados dependen de cada caso.</p>
+      <ul>
+        <li><a href="legal/terminos-y-condiciones/">Términos y condiciones</a></li>
+        <li><a href="legal/politica-de-privacidad/">Política de privacidad</a></li>
+        <li><a href="legal/tratamiento-de-datos/">Tratamiento de datos</a></li>
+        <li><button type="button" class="footer__link" data-cookie-prefs hidden>Preferencias de cookies</button></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<!-- ======================= BOTÓN FLOTANTE DE WHATSAPP ======================= -->
+<!-- ======================= CHAT FLOTANTE (WHATSAPP) ======================= -->
+<div class="wa-chat" id="waChat">
+  <section class="wa-chat__panel" id="waPanel" role="dialog" aria-labelledby="waTitle" aria-modal="false" hidden>
+    <header class="wa-chat__head">
+      <span class="wa-chat__avatar" aria-hidden="true">D</span>
+      <div class="wa-chat__who">
+        <strong id="waTitle">Datafin Beta</strong>
+        <span>Asesoría por WhatsApp</span>
+      </div>
+      <button class="wa-chat__close" id="waClose" type="button" aria-label="Cerrar chat"><svg class="ico ico--flat" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </header>
+    <div class="wa-chat__body" id="waLog" role="log" aria-live="polite">
+      <div class="wa-msg wa-msg--in wa-intro" style="--i:0"><p>¡Hola! 👋 Escribe aquí tu pregunta y la enviaremos a un asesor de Datafin Beta por WhatsApp.</p><time></time></div>
+      <div class="wa-msg wa-msg--in wa-intro" style="--i:1"><p>Solo tendrás que pulsar <strong>Enviar</strong> en WhatsApp para que nos llegue.</p><time></time></div>
+      <div class="wa-chips wa-intro" style="--i:2" aria-label="Preguntas frecuentes">
+        <button type="button" data-q="Hola, quiero asesoría para mi caso.">Quiero asesoría</button>
+        <button type="button" data-q="Hola, ¿qué servicios ofrecen?">¿Qué servicios ofrecen?</button>
+        <button type="button" data-q="Hola, ¿cuánto cuesta la consulta?">¿Cuánto cuesta la consulta?</button>
+      </div>
+    </div>
+    <form class="wa-chat__form" id="waForm" novalidate>
+      <label class="sr-only" for="waText">Escribe tu pregunta</label>
+      <textarea id="waText" name="pregunta" rows="1" maxlength="600" placeholder="Escribe tu pregunta…" autocomplete="off"></textarea>
+      <button class="wa-chat__send" id="waSend" type="submit" aria-label="Enviar por WhatsApp" disabled><svg class="ico ico--flat" aria-hidden="true"><use href="#i-send"/></svg></button>
+    </form>
+    <p class="wa-chat__note">Se abrirá WhatsApp con tu mensaje listo. <a href="legal/tratamiento-de-datos/" target="_blank" rel="noopener">Cómo tratamos tus datos</a>.</p>
+  </section>
+  <button class="wa-float" id="waToggle" type="button" aria-expanded="false" aria-controls="waPanel" aria-label="Abrir chat de WhatsApp">
+    <svg class="ico ico--flat wa-float__ico" aria-hidden="true"><use href="#i-whatsapp"/></svg>
+    <svg class="ico ico--flat wa-float__x" aria-hidden="true"><use href="#i-x"/></svg>
+    <span class="wa-float__label">Escríbenos</span>
+  </button>
+</div>
+
+<!-- ======================= CONSULTAR MI CASO (ESTADO DEL PROCESO) ======================= -->
+<dialog class="modal" id="caseDialog" aria-labelledby="caseTitle">
+  <form method="dialog" class="modal__close-form"><button class="modal__close" aria-label="Cerrar"><svg class="ico ico--flat" aria-hidden="true"><use href="#i-x"/></svg></button></form>
+  <div class="modal__body" id="caseFormWrap">
+    <p class="kicker">Estado de tu proceso</p>
+    <h2 id="caseTitle">Consultar mi caso</h2>
+    <p class="muted">Ingresa tu número de proceso y tu código de seguridad para ver cómo va tu caso.</p>
+    <form id="caseForm" novalidate autocomplete="off">
+      <label>Número de proceso
+        <input name="proceso" type="text" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="DF-2026-00000" maxlength="16" required>
+      </label>
+      <label>Código de seguridad
+        <span class="field-code">
+          <input name="codigo" type="password" autocapitalize="characters" autocomplete="one-time-code" spellcheck="false" placeholder="6 caracteres" maxlength="6" required>
+          <button type="button" class="field-code__toggle" id="codeToggle" aria-pressed="false">Mostrar</button>
+        </span>
+      </label>
+      <p class="modal__help">Te enviamos tu número de proceso y tu código por WhatsApp cuando iniciamos tu gestión.</p>
+      <p class="form-error" id="caseError" role="alert" hidden></p>
+      <p class="modal__wait" id="caseWait" role="status" hidden>Consultando… puede tardar unos segundos.</p>
+      <button class="btn btn--primary btn--lg btn--block" id="caseSubmit" type="submit"><span>Consultar mi caso</span> <svg class="ico ico--flat" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+    </form>
+    <p class="modal__foot">¿Aún no tienes un proceso o no encuentras tu código? <a href="https://wa.me/{{ajustes.whatsapp}}?text=Hola%2C%20necesito%20ayuda%20para%20consultar%20mi%20proceso." target="_blank" rel="noopener">Escríbenos por WhatsApp</a>.</p>
+    <p class="modal__legal">Usamos estos datos solo para mostrarte el estado de tu proceso. <a href="legal/tratamiento-de-datos/" target="_blank" rel="noopener">Tratamiento de datos</a>.</p>
+  </div>
+  <div class="modal__body modal__body--result" id="caseResult" hidden aria-live="polite"></div>
+</dialog>
+
+<script>
+  /* Medición opcional. Pega aquí los IDs cuando existan; vacío = no se carga nada ni se muestra el aviso de cookies.
+     meta: ID del Píxel de Meta · tiktok: ID del Píxel de TikTok · ga4: ID de medición de Google Analytics (G-XXXXXXXXXX) */
+  window.DATAFIN_TRACKING = { meta: '', tiktok: '', ga4: '' };
+  /* Consulta de proceso: URL del servicio (Google Apps Script) que responde con el estado del proceso (ver backend/README.md).
+     No cambiarla sin avisar a quien administra la hoja. Vacío = la consulta muestra "en preparación" y solo funciona con el ejemplo. */
+  window.DATAFIN_PROCESO_API = 'https://script.google.com/macros/s/AKfycbzhYu4X4HPY7tSy6Bfo5ZWJESfD5po2ajgLDg5I0cLS1vGSTLRr2ZFI1x9-vM1FNbYp/exec';
+</script>
+<script src="tracking.js"></script>
+<script src="main.js"></script>
+<script src="motion.js"></script>
+</body>
+</html>

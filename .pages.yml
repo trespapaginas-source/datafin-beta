@@ -1,0 +1,782 @@
+# Panel de contenido de Datafin Beta (Pages CMS).
+# Las personas invitadas solo ven lo que está aquí: no pueden tocar el diseño ni el código.
+# Cada texto tiene límite de largo. Si alguien escribe algo que Meta puede leer como promesa
+# (p. ej. «eliminamos», «garantizado», «100 %»), la web NO se actualiza y la versión anterior sigue en línea.
+
+settings:
+  content:
+    merge: true
+  commit:
+    identity: app
+    templates:
+      create: "Contenido: crea {filename} (panel)"
+      update: "Contenido: actualiza {filename} (panel)"
+      delete: "Contenido: borra {filename} (panel)"
+
+content:
+  - name: datos
+    label: "Precios y contacto"
+    type: group
+    items:
+      - name: ajustes
+        label: "Precios, WhatsApp, correo y redes"
+        type: file
+        path: contenido/ajustes.json
+        format: json
+        fields:
+          - name: whatsapp
+            label: "WhatsApp (solo números, con indicativo)"
+            type: string
+            required: true
+            description: "Ej.: 573127045885. Se usa en todos los botones de WhatsApp y en las páginas legales."
+            options:
+              maxlength: 15
+          - name: whatsapp_visible
+            label: "WhatsApp (como se ve escrito)"
+            type: string
+            required: true
+            description: "Ej.: +57 312 704 5885"
+            options:
+              maxlength: 25
+          - name: correo
+            label: "Correo"
+            type: string
+            required: true
+            options:
+              maxlength: 60
+          - name: direccion
+            label: "Dirección"
+            type: string
+            required: true
+            description: "Ej.: Carrera 65 # 76-57"
+            options:
+              maxlength: 50
+          - name: ciudad
+            label: "Ciudad y departamento"
+            type: string
+            required: true
+            options:
+              maxlength: 50
+          - name: horario_quienes_somos
+            label: "Horario (sección Quiénes somos)"
+            type: string
+            required: true
+            options:
+              maxlength: 70
+          - name: horario_pie
+            label: "Horario (pie de página)"
+            type: string
+            required: true
+            options:
+              maxlength: 70
+          - name: precio_consulta_general
+            label: "Precio de la Consulta General (COP)"
+            type: number
+            required: true
+            description: "Solo el número, sin puntos ni signos. Ej.: 69900. Se actualiza en la portada, las preguntas frecuentes y los términos."
+            options:
+              min: 1000
+              max: 5000000
+          - name: precio_historial
+            label: "Precio de un solo historial (COP)"
+            type: number
+            required: true
+            description: "Solo el número. Ej.: 49900."
+            options:
+              min: 1000
+              max: 5000000
+          - name: instagram
+            label: "Instagram (enlace)"
+            type: string
+            required: true
+            pattern:
+              regex: "^https://[^\\s]+$"
+              message: "Debe ser un enlace que empiece con https://"
+            description: "Debe empezar con https://"
+            options:
+              maxlength: 150
+          - name: tiktok
+            label: "TikTok (enlace)"
+            type: string
+            required: true
+            pattern:
+              regex: "^https://[^\\s]+$"
+              message: "Debe ser un enlace que empiece con https://"
+            description: "Debe empezar con https://"
+            options:
+              maxlength: 150
+          - name: facebook
+            label: "Facebook (enlace)"
+            type: string
+            required: true
+            pattern:
+              regex: "^https://[^\\s]+$"
+              message: "Debe ser un enlace que empiece con https://"
+            description: "Debe empezar con https://"
+            options:
+              maxlength: 150
+
+  - name: textos
+    label: "Textos de la página"
+    type: group
+    items:
+      - name: inicio
+        label: "Inicio (parte de arriba)"
+        type: file
+        path: contenido/inicio.json
+        format: json
+        fields:
+          - name: etiqueta
+            label: "Etiqueta pequeña sobre el titular"
+            type: string
+            required: true
+            options:
+              maxlength: 50
+          - name: titular
+            label: "Titular (2 líneas)"
+            type: text
+            required: true
+            description: "Escribe cada línea en un renglón aparte. Lo que escribas entre dos asteriscos (**así**) sale con el color degradado."
+            options:
+              maxlength: 70
+          - name: parrafo
+            label: "Párrafo bajo el titular"
+            type: text
+            required: true
+            description: "Conviene dejar «Los resultados dependen de cada caso.»"
+            options:
+              maxlength: 170
+          - name: punto_1
+            label: "Punto de confianza 1"
+            type: string
+            required: true
+            options:
+              maxlength: 40
+          - name: punto_2
+            label: "Punto de confianza 2"
+            type: string
+            required: true
+            options:
+              maxlength: 40
+          - name: punto_3
+            label: "Punto de confianza 3"
+            type: string
+            required: true
+            options:
+              maxlength: 40
+          - name: punto_4
+            label: "Punto de confianza 4"
+            type: string
+            required: true
+            options:
+              maxlength: 30
+      - name: cifras
+        label: "Franja de cifras"
+        type: file
+        path: contenido/cifras.json
+        format: json
+        fields:
+          - name: cifra_1
+            label: "Cifra 1"
+            type: object
+            fields:
+              - name: titulo
+                label: "Texto grande"
+                type: string
+                required: true
+                options:
+                  maxlength: 30
+              - name: texto
+                label: "Texto pequeño"
+                type: string
+                required: true
+                options:
+                  maxlength: 40
+          - name: cifra_2
+            label: "Cifra 2"
+            type: object
+            fields:
+              - name: titulo
+                label: "Texto grande"
+                type: string
+                required: true
+                options:
+                  maxlength: 30
+              - name: texto
+                label: "Texto pequeño"
+                type: string
+                required: true
+                options:
+                  maxlength: 30
+          - name: cifra_3
+            label: "Cifra 3"
+            type: object
+            fields:
+              - name: titulo
+                label: "Texto grande"
+                type: string
+                required: true
+                options:
+                  maxlength: 30
+              - name: texto
+                label: "Texto pequeño"
+                type: string
+                required: true
+                options:
+                  maxlength: 40
+          - name: cifra_4
+            label: "Cifra 4"
+            type: object
+            fields:
+              - name: titulo
+                label: "Texto grande"
+                type: string
+                required: true
+                options:
+                  maxlength: 30
+              - name: texto
+                label: "Texto pequeño"
+                type: string
+                required: true
+                options:
+                  maxlength: 30
+      - name: consulta
+        label: "Consulta General"
+        type: file
+        path: contenido/consulta.json
+        format: json
+        fields:
+          - name: etiqueta
+            label: "Etiqueta pequeña"
+            type: string
+            required: true
+            options:
+              maxlength: 30
+          - name: titular
+            label: "Titular"
+            type: text
+            required: true
+            description: "Lo que escribas entre dos asteriscos (**así**) sale con el color degradado."
+            options:
+              maxlength: 70
+          - name: parrafo
+            label: "Párrafo"
+            type: text
+            required: true
+            options:
+              maxlength: 200
+          - name: punto_1
+            label: "Punto 1 de la lista"
+            type: string
+            required: true
+            description: "Lo que escribas entre dos asteriscos (**así**) sale en negrita."
+            options:
+              maxlength: 50
+          - name: punto_2
+            label: "Punto 2 de la lista"
+            type: string
+            required: true
+            description: "Lo que escribas entre dos asteriscos (**así**) sale en negrita."
+            options:
+              maxlength: 50
+          - name: punto_3
+            label: "Punto 3 de la lista"
+            type: string
+            required: true
+            description: "Lo que escribas entre dos asteriscos (**así**) sale en negrita."
+            options:
+              maxlength: 90
+          - name: nota
+            label: "Nota bajo la lista"
+            type: string
+            required: true
+            options:
+              maxlength: 120
+          - name: etiqueta_precio
+            label: "Nombre sobre el precio"
+            type: string
+            required: true
+            options:
+              maxlength: 30
+          - name: alternativa
+            label: "Frase del historial individual"
+            type: string
+            required: true
+            description: "Escribe [precio_historial] donde va el precio. Lo que escribas entre dos asteriscos (**así**) sale en negrita."
+            options:
+              maxlength: 110
+      - name: pasos
+        label: "Cómo funciona (4 pasos)"
+        type: file
+        path: contenido/pasos.json
+        format: json
+        fields:
+          - name: etiqueta
+            label: "Etiqueta pequeña"
+            type: string
+            required: true
+            options:
+              maxlength: 30
+          - name: titulo
+            label: "Título"
+            type: string
+            required: true
+            options:
+              maxlength: 60
+          - name: subtitulo
+            label: "Subtítulo"
+            type: string
+            required: true
+            options:
+              maxlength: 100
+          - name: paso_1
+            label: "Paso 1"
+            type: object
+            fields:
+              - name: titulo
+                label: "Título"
+                type: string
+                required: true
+                options:
+                  maxlength: 30
+              - name: texto
+                label: "Texto"
+                type: string
+                required: true
+                options:
+                  maxlength: 70
+          - name: paso_2
+            label: "Paso 2"
+            type: object
+            fields:
+              - name: titulo
+                label: "Título"
+                type: string
+                required: true
+                options:
+                  maxlength: 40
+              - name: texto
+                label: "Texto"
+                type: text
+                required: true
+                options:
+                  maxlength: 130
+          - name: paso_3
+            label: "Paso 3"
+            type: object
+            fields:
+              - name: titulo
+                label: "Título"
+                type: string
+                required: true
+                options:
+                  maxlength: 30
+              - name: texto
+                label: "Texto"
+                type: text
+                required: true
+                options:
+                  maxlength: 190
+          - name: paso_4
+            label: "Paso 4"
+            type: object
+            fields:
+              - name: titulo
+                label: "Título"
+                type: string
+                required: true
+                options:
+                  maxlength: 50
+              - name: texto
+                label: "Texto"
+                type: text
+                required: true
+                options:
+                  maxlength: 160
+      - name: seguimiento
+        label: "Seguimiento (sección oscura)"
+        type: file
+        path: contenido/seguimiento.json
+        format: json
+        fields:
+          - name: etiqueta
+            label: "Etiqueta pequeña"
+            type: string
+            required: true
+            options:
+              maxlength: 40
+          - name: titular
+            label: "Titular"
+            type: text
+            required: true
+            description: "Lo que escribas entre dos asteriscos (**así**) sale con el color degradado."
+            options:
+              maxlength: 80
+          - name: parrafo
+            label: "Párrafo"
+            type: string
+            required: true
+            options:
+              maxlength: 80
+          - name: dato_1
+            label: "Dato 1"
+            type: object
+            fields:
+              - name: titulo
+                label: "Texto grande"
+                type: string
+                required: true
+                options:
+                  maxlength: 30
+              - name: texto
+                label: "Texto pequeño"
+                type: string
+                required: true
+                options:
+                  maxlength: 40
+          - name: dato_2
+            label: "Dato 2"
+            type: object
+            fields:
+              - name: titulo
+                label: "Texto grande"
+                type: string
+                required: true
+                options:
+                  maxlength: 30
+              - name: texto
+                label: "Texto pequeño"
+                type: string
+                required: true
+                options:
+                  maxlength: 40
+          - name: dato_3
+            label: "Dato 3"
+            type: object
+            fields:
+              - name: titulo
+                label: "Texto grande"
+                type: string
+                required: true
+                options:
+                  maxlength: 30
+              - name: texto
+                label: "Texto pequeño"
+                type: string
+                required: true
+                options:
+                  maxlength: 30
+          - name: dato_4
+            label: "Dato 4"
+            type: object
+            fields:
+              - name: titulo
+                label: "Texto grande"
+                type: string
+                required: true
+                options:
+                  maxlength: 30
+              - name: texto
+                label: "Texto pequeño"
+                type: string
+                required: true
+                options:
+                  maxlength: 30
+      - name: servicios
+        label: "Servicios (5 tarjetas)"
+        type: file
+        path: contenido/servicios.json
+        format: json
+        fields:
+          - name: etiqueta
+            label: "Etiqueta pequeña"
+            type: string
+            required: true
+            options:
+              maxlength: 30
+          - name: titulo
+            label: "Título"
+            type: string
+            required: true
+            options:
+              maxlength: 30
+          - name: subtitulo
+            label: "Subtítulo"
+            type: text
+            required: true
+            options:
+              maxlength: 140
+          - name: historial
+            label: "Tarjeta 1 · Consulta general"
+            type: object
+            description: "La ilustración de la tarjeta no cambia."
+            fields:
+              - name: titulo
+                label: "Título de la tarjeta"
+                type: string
+                required: true
+                options:
+                  maxlength: 70
+              - name: descripcion
+                label: "Descripción"
+                type: string
+                required: true
+                options:
+                  maxlength: 70
+              - name: mensaje
+                label: "Mensaje que se abre en WhatsApp"
+                type: text
+                required: true
+                description: "Es el texto que ya viene escrito cuando la persona toca la tarjeta."
+                options:
+                  maxlength: 110
+          - name: telefonia
+            label: "Tarjeta 2 · Reportes de telefonía"
+            type: object
+            description: "La ilustración de la tarjeta no cambia."
+            fields:
+              - name: titulo
+                label: "Título de la tarjeta"
+                type: string
+                required: true
+                options:
+                  maxlength: 100
+              - name: descripcion
+                label: "Descripción"
+                type: text
+                required: true
+                options:
+                  maxlength: 180
+              - name: mensaje
+                label: "Mensaje que se abre en WhatsApp"
+                type: text
+                required: true
+                description: "Es el texto que ya viene escrito cuando la persona toca la tarjeta."
+                options:
+                  maxlength: 90
+          - name: financieras
+            label: "Tarjeta 3 · Financieras y cooperativas"
+            type: object
+            description: "La ilustración de la tarjeta no cambia."
+            fields:
+              - name: titulo
+                label: "Título de la tarjeta"
+                type: text
+                required: true
+                options:
+                  maxlength: 140
+              - name: descripcion
+                label: "Descripción"
+                type: text
+                required: true
+                options:
+                  maxlength: 220
+              - name: mensaje
+                label: "Mensaje que se abre en WhatsApp"
+                type: text
+                required: true
+                description: "Es el texto que ya viene escrito cuando la persona toca la tarjeta."
+                options:
+                  maxlength: 120
+          - name: simit
+            label: "Tarjeta 4 · Comparendos (SIMIT)"
+            type: object
+            description: "La ilustración de la tarjeta no cambia."
+            fields:
+              - name: titulo
+                label: "Título de la tarjeta"
+                type: string
+                required: true
+                options:
+                  maxlength: 60
+              - name: descripcion
+                label: "Descripción"
+                type: string
+                required: true
+                options:
+                  maxlength: 60
+              - name: mensaje
+                label: "Mensaje que se abre en WhatsApp"
+                type: text
+                required: true
+                description: "Es el texto que ya viene escrito cuando la persona toca la tarjeta."
+                options:
+                  maxlength: 90
+          - name: fortalecimiento
+            label: "Tarjeta 5 · Fortalecimiento de perfil"
+            type: object
+            description: "La ilustración de la tarjeta no cambia."
+            fields:
+              - name: titulo
+                label: "Título de la tarjeta"
+                type: string
+                required: true
+                options:
+                  maxlength: 60
+              - name: descripcion
+                label: "Descripción"
+                type: text
+                required: true
+                options:
+                  maxlength: 230
+              - name: mensaje
+                label: "Mensaje que se abre en WhatsApp"
+                type: text
+                required: true
+                description: "Es el texto que ya viene escrito cuando la persona toca la tarjeta."
+                options:
+                  maxlength: 90
+      - name: asesoria
+        label: "Banda «¿No sabes cuál servicio necesitas?»"
+        type: file
+        path: contenido/asesoria.json
+        format: json
+        fields:
+          - name: etiqueta
+            label: "Etiqueta pequeña"
+            type: string
+            required: true
+            options:
+              maxlength: 30
+          - name: titular
+            label: "Titular"
+            type: text
+            required: true
+            description: "Lo que escribas entre dos asteriscos (**así**) sale con el color degradado."
+            options:
+              maxlength: 60
+          - name: parrafo
+            label: "Párrafo"
+            type: string
+            required: true
+            options:
+              maxlength: 90
+      - name: nosotros
+        label: "Quiénes somos"
+        type: file
+        path: contenido/nosotros.json
+        format: json
+        fields:
+          - name: etiqueta
+            label: "Etiqueta pequeña"
+            type: string
+            required: true
+            options:
+              maxlength: 30
+          - name: titular
+            label: "Titular"
+            type: string
+            required: true
+            options:
+              maxlength: 100
+          - name: parrafo
+            label: "Párrafo"
+            type: text
+            required: true
+            description: "El aviso de independencia y los datos de la empresa son fijos y no se editan aquí."
+            options:
+              maxlength: 260
+          - name: cobertura_titulo
+            label: "Cobertura: título"
+            type: string
+            required: true
+            options:
+              maxlength: 50
+          - name: cobertura_texto
+            label: "Cobertura: texto"
+            type: string
+            required: true
+            options:
+              maxlength: 70
+      - name: faq
+        label: "Preguntas frecuentes"
+        type: file
+        path: contenido/faq.json
+        format: json
+        fields:
+          - name: etiqueta
+            label: "Etiqueta pequeña"
+            type: string
+            required: true
+            options:
+              maxlength: 30
+          - name: titulo
+            label: "Título"
+            type: string
+            required: true
+            options:
+              maxlength: 30
+          - name: subtitulo
+            label: "Subtítulo"
+            type: string
+            required: true
+            options:
+              maxlength: 50
+          - name: preguntas
+            label: "Preguntas y respuestas"
+            type: object
+            description: "Puedes agregar, ordenar y quitar preguntas. Para poner un precio escribe [precio_general] o [precio_historial]: se llenan solos con los valores de «Precios y contacto». Para un enlace: [texto](legal/tratamiento-de-datos/)"
+            list:
+              min: 1
+              max: 20
+              collapsible:
+                collapsed: true
+                summary: "{pregunta}"
+            fields:
+              - name: pregunta
+                label: "Pregunta"
+                type: string
+                required: true
+                options:
+                  maxlength: 140
+              - name: respuesta
+                label: "Respuesta"
+                type: text
+                required: true
+                options:
+                  maxlength: 700
+      - name: pie
+        label: "Pie de página"
+        type: file
+        path: contenido/pie.json
+        format: json
+        fields:
+          - name: lema
+            label: "Frase bajo el logo"
+            type: text
+            required: true
+            description: "Escribe cada línea en un renglón aparte."
+            options:
+              maxlength: 120
+      - name: seo
+        label: "Google y vista previa al compartir"
+        type: file
+        path: contenido/seo.json
+        format: json
+        fields:
+          - name: titulo
+            label: "Título de la pestaña y de Google"
+            type: string
+            required: true
+            description: "Ideal: menos de 60 caracteres."
+            options:
+              maxlength: 70
+          - name: descripcion
+            label: "Descripción para Google"
+            type: text
+            required: true
+            description: "Ideal: menos de 160 caracteres."
+            options:
+              maxlength: 170
+          - name: og_titulo
+            label: "Título al compartir el enlace"
+            type: string
+            required: true
+            options:
+              maxlength: 70
+          - name: og_descripcion
+            label: "Descripción al compartir el enlace"
+            type: text
+            required: true
+            options:
+              maxlength: 200

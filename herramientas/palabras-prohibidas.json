@@ -1,0 +1,20 @@
+{
+  "_ayuda": "Lista que usa el armador para frenar textos que Meta puede tomar como promesa engañosa. 'bloquean' = no se publica; 'avisan' = se publica pero queda anotado. Se escriben sin tildes y en minúscula.",
+  "bloquean": [
+    { "patron": "eliminamos|eliminaremos|elimina tus|eliminar tus reportes|eliminar tu reporte|eliminacion garantizada", "porque": "promete eliminar reportes" },
+    { "patron": "borramos|borraremos|borra tus|borrar tus reportes|borrar tu historial|limpiamos|limpia tu historial|limpiar tu historial|te sacamos de|sacamos tu nombre", "porque": "promete borrar o limpiar el historial" },
+    { "patron": "garantizamos|garantizado|garantizada|garantizados|garantizadas|resultado asegurado|100 ?%|cien por ciento|te aprobamos|credito aprobado|credito seguro", "porque": "promesa absoluta de resultado" },
+    { "patron": "sin reportes negativos|sin reporte negativo|libre de reportes|limpio de reportes", "porque": "promete que no habra reportes" },
+    { "patron": "de reportado a aprobado|pasa de reportado", "porque": "promete pasar de reportado a aprobado" },
+    { "patron": "los mejores|las mejores|el mejor |la mejor |numero 1|no\\. ?1 en", "porque": "superlativo sin respaldo" },
+    { "patron": "no es magia|milagro", "porque": "lema de resultado que Meta puede leer como promesa" },
+    { "patron": "procesos legales", "porque": "dice 'legal' sin abogado confirmado" },
+    { "patron": "consultamos directamente|trabajamos con datacredito|trabajamos con cifin|aliados de datacredito|alianza con datacredito|convenio con datacredito|oficial de datacredito|oficial de cifin", "porque": "sugiere vinculo con las centrales" }
+  ],
+  "avisan": [
+    { "patron": "experto|especialista", "porque": "credencial que hay que poder demostrar" },
+    { "patron": "resultados reales|resultados comprobados|casos de exito", "porque": "afirma resultados demostrados" },
+    { "patron": "garantia", "porque": "la palabra garantia puede leerse como promesa" },
+    { "patron": "(^|[^a-z])si funciona([^a-z]|$)", "porque": "testimonio de que funciona" }
+  ]
+}

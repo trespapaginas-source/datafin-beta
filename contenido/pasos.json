@@ -1,0 +1,21 @@
+{
+  "etiqueta": "Cómo funciona",
+  "titulo": "Un proceso claro, de principio a fin",
+  "subtitulo": "Cuatro pasos, sin letra pequeña y con una persona real acompañándote.",
+  "paso_1": {
+    "titulo": "Consultamos tu caso",
+    "texto": "Escríbenos por WhatsApp y cuéntanos tu situación."
+  },
+  "paso_2": {
+    "titulo": "Analizamos tu situación",
+    "texto": "Nuestro equipo revisa la información disponible y te explica las alternativas para tu caso."
+  },
+  "paso_3": {
+    "titulo": "Iniciamos el proceso",
+    "texto": "Si tu caso es viable, una asesora te explica la gestión y, con tu acuerdo, presentamos las solicitudes ante las entidades competentes."
+  },
+  "paso_4": {
+    "titulo": "Conoce la respuesta de tu caso",
+    "texto": "Te informamos los avances y las respuestas de las entidades. Los cambios en tu historial dependen de cada caso."
+  }
+}

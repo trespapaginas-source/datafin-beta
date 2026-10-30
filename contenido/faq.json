@@ -1,0 +1,39 @@
+{
+  "etiqueta": "FAQ",
+  "titulo": "Preguntas frecuentes",
+  "subtitulo": "Resuelve tus dudas rápidamente.",
+  "preguntas": [
+    {
+      "pregunta": "¿Qué es un reporte en centrales de riesgo?",
+      "respuesta": "Es el registro que centrales como Datacrédito y Cifin conservan sobre tu comportamiento de pago con bancos, financieras, cooperativas y empresas de servicios. Otras entidades lo consultan para decidir si te otorgan crédito."
+    },
+    {
+      "pregunta": "¿Cuánto tiempo tarda el proceso?",
+      "respuesta": "Depende de cada caso: del tipo de reporte, de la entidad y de la documentación disponible. Tras analizar tu situación te damos un estimado realista, sin prometer plazos que no podamos cumplir."
+    },
+    {
+      "pregunta": "¿Es seguro compartir mi información?",
+      "respuesta": "Sí. Nunca te pedimos contraseñas ni claves de tu banco, de las centrales de riesgo o de tu correo. Tu información es confidencial, se usa únicamente para analizar y gestionar tu caso y se trata conforme a nuestra [Política de tratamiento de datos](legal/tratamiento-de-datos/) y a la normativa colombiana de protección de datos personales."
+    },
+    {
+      "pregunta": "¿Qué documentos necesito?",
+      "respuesta": "Para empezar solo necesitas tu documento de identidad y los datos básicos que te pidamos por WhatsApp. Según tu caso, podemos pedirte soportes como paz y salvos, certificaciones o comunicaciones de la entidad."
+    },
+    {
+      "pregunta": "¿Puedo mejorar mi puntaje?",
+      "respuesta": "Ciertas acciones pueden contribuir a fortalecer un perfil crediticio, pero el efecto depende de cada situación y del comportamiento financiero. Te orientamos sobre las acciones que podrías evaluar. No podemos garantizar un aumento del puntaje ni la aprobación de un crédito."
+    },
+    {
+      "pregunta": "¿Si ya pagué, por qué sigo reportado?",
+      "respuesta": "El pago de una obligación no implica necesariamente que la información negativa desaparezca de inmediato. La permanencia y las posibilidades de corrección dependen de las circunstancias y de las normas aplicables. Revisamos la información disponible para determinar si existe una gestión viable."
+    },
+    {
+      "pregunta": "¿Pueden revisar información de Datacrédito y CIFIN?",
+      "respuesta": "Sí. Te orientamos sobre la información crediticia disponible y, si tu caso es viable, podemos gestionar las solicitudes correspondientes ante las entidades competentes. Datafin Beta es una empresa privada e independiente; no somos representantes ni aliados oficiales de estas centrales."
+    },
+    {
+      "pregunta": "¿Cuánto cuesta el servicio?",
+      "respuesta": "La asesoría inicial no tiene costo. La Consulta General cuesta [precio_general] COP y la consulta de un solo historial (Datacrédito o CIFIN), [precio_historial] COP. Los demás servicios se cotizan según el alcance de la gestión. Te informamos el valor y las condiciones antes de iniciar."
+    }
+  ]
+}

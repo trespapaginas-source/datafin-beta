@@ -1,0 +1,52 @@
+# Arma la web cada vez que cambian los textos (panel), las plantillas o el armador.
+# Si el armador encuentra un problema (palabra prohibida, campo vacío, enlace roto…) el trabajo FALLA,
+# no se sube nada y la web publicada se queda como estaba. GitHub avisa por correo al dueño del repositorio.
+name: Construir web
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'contenido/**'
+      - 'plantillas/**'
+      - 'herramientas/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: construir-web
+  cancel-in-progress: false
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Armar las páginas
+        run: node herramientas/construir.mjs
+      - name: Revisar que solo cambien las páginas generadas
+        run: |
+          cambios=$(git status --porcelain | awk '{print $2}')
+          for f in $cambios; do
+            case "$f" in
+              index.html|legal/index.html|legal/*/index.html) ;;
+              *) echo "Archivo inesperado cambiado: $f"; exit 1 ;;
+            esac
+          done
+      - name: Guardar las páginas generadas
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "Datafin web (automático)"
+            git config user.email "actions@users.noreply.github.com"
+            git add index.html legal
+            git commit -m "Genera la web desde el contenido"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          else
+            echo "Sin cambios: las páginas ya coinciden con el contenido."
+          fi

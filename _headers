@@ -2,3 +2,9 @@ https://:project.pages.dev/*
   X-Robots-Tag: noindex
 https://:version.:project.pages.dev/*
   X-Robots-Tag: noindex
+/plantillas/*
+  X-Robots-Tag: noindex
+/contenido/*
+  X-Robots-Tag: noindex
+/herramientas/*
+  X-Robots-Tag: noindex

@@ -1,0 +1,30 @@
+{
+  "historial": {
+    "mensaje": "Hola, me interesa hacer una consulta general de mi historial crediticio.",
+    "titulo": "Consulta general de tu historial crediticio",
+    "descripcion": "Historiales en PDF y llamada con una asesora."
+  },
+  "telefonia": {
+    "mensaje": "Hola, me interesa la gestión de reportes negativos de telefonía.",
+    "titulo": "Gestión de solicitudes relacionadas con reportes negativos de telefonía",
+    "descripcion": "Primero se revisa si tu caso es viable. No se garantizan resultados: dependen de cada caso y de las respuestas de las entidades."
+  },
+  "financieras": {
+    "mensaje": "Hola, me interesa la gestión de reportes negativos con financieras y cooperativas.",
+    "titulo": "Gestión de solicitudes relacionadas con reportes negativos de entidades financieras y cooperativas",
+    "descripcion": "Incluye casos de cobranza. Primero se revisa si tu caso es viable. No se garantizan resultados: dependen de cada caso y de las respuestas de las entidades."
+  },
+  "simit": {
+    "mensaje": "Hola, me interesa la gestión de comparendos de tránsito (SIMIT).",
+    "titulo": "Gestión de comparendos de tránsito (SIMIT)",
+    "descripcion": "Revisión y gestión de tu caso en el SIMIT."
+  },
+  "fortalecimiento": {
+    "mensaje": "Hola, me interesa el fortalecimiento de mi perfil crediticio.",
+    "titulo": "Fortalecimiento de perfil crediticio",
+    "descripcion": "Orientación para identificar acciones que podrían contribuir a fortalecer tu perfil crediticio, sin garantizar cambios en el puntaje ni aprobación de créditos."
+  },
+  "etiqueta": "Servicios",
+  "titulo": "Nuestros servicios",
+  "subtitulo": "Servicios de consulta, orientación y gestión de casos relacionados con tu información crediticia."
+}
