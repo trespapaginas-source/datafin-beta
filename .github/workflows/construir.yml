@@ -5,7 +5,7 @@ name: Construir web
 
 on:
   push:
-    branches: [main, panel-cms]   # panel-cms es solo para la prueba; se quita antes de unir a main
+    branches: [main]
     paths:
       - 'contenido/**'
       - 'plantillas/**'
