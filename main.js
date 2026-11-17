@@ -92,6 +92,7 @@
         { consecutivo: 'DF-2026-00000', tipo: 'Castigo de permanencia', etapa: 'Tutela', subestado: 'Admitida',
           descripcion: 'El juzgado ya tiene tu solicitud. Estamos esperando sus siguientes actuaciones.',
           proximoPaso: 'Esperar la decisión del juzgado', actualizado: '2026-09-29',
+          radicacion: '2026-09-15', fechaLimite: '2026-10-06',
           nota: 'Ejemplo: te avisaremos por WhatsApp cuando el juzgado responda.', carpeta: 'https://drive.google.com/',
           etapas: ['Petición', 'Verificación', 'Desacato', 'Tutela', 'Impugnación', 'Revisión SIC', 'Cerrado'], etapaIndex: 3 },
         { consecutivo: 'DF-2025-00000', tipo: 'Reporte negativo', etapa: 'Petición', subestado: 'Radicada',
@@ -178,6 +179,8 @@
     if (p.descripcion) card.append(nodo('p', 'proc__desc', p.descripcion));
     const dl = nodo('dl', 'proc__data');
     if (p.entidad) { const r = nodo('div'); r.append(nodo('dt', '', 'Entidad'), nodo('dd', '', p.entidad)); dl.append(r); }
+    if (p.radicacion) { const r = nodo('div'); r.append(nodo('dt', '', 'Radicada el'), nodo('dd', '', fecha(p.radicacion))); dl.append(r); }
+    if (p.fechaLimite) { const r = nodo('div'); r.append(nodo('dt', '', 'La entidad debe responder hasta el'), nodo('dd', '', fecha(p.fechaLimite))); dl.append(r); }
     if (p.proximoPaso) { const r = nodo('div'); r.append(nodo('dt', '', 'Próximo paso'), nodo('dd', '', p.proximoPaso)); dl.append(r); }
     if (p.actualizado) { const r = nodo('div'); r.append(nodo('dt', '', 'Última actualización'), nodo('dd', '', fecha(p.actualizado))); dl.append(r); }
     if (p.nota) { const r = nodo('div'); r.append(nodo('dt', '', 'Nota de tu asesor'), nodo('dd', 'proc__nota', p.nota)); dl.append(r); }
