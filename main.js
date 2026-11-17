@@ -92,6 +92,7 @@
         { consecutivo: 'DF-2026-00000', tipo: 'Castigo de permanencia', etapa: 'Tutela', subestado: 'Admitida',
           descripcion: 'El juzgado ya tiene tu solicitud. Estamos esperando sus siguientes actuaciones.',
           proximoPaso: 'Esperar la decisión del juzgado', actualizado: '2026-09-29',
+          nota: 'Ejemplo: te avisaremos por WhatsApp cuando el juzgado responda.', carpeta: 'https://drive.google.com/',
           etapas: ['Petición', 'Verificación', 'Desacato', 'Tutela', 'Impugnación', 'Revisión SIC', 'Cerrado'], etapaIndex: 3 },
         { consecutivo: 'DF-2025-00000', tipo: 'Reporte negativo', etapa: 'Petición', subestado: 'Radicada',
           descripcion: 'Presentamos tu solicitud ante la entidad y esperamos su respuesta.',
@@ -179,7 +180,14 @@
     if (p.entidad) { const r = nodo('div'); r.append(nodo('dt', '', 'Entidad'), nodo('dd', '', p.entidad)); dl.append(r); }
     if (p.proximoPaso) { const r = nodo('div'); r.append(nodo('dt', '', 'Próximo paso'), nodo('dd', '', p.proximoPaso)); dl.append(r); }
     if (p.actualizado) { const r = nodo('div'); r.append(nodo('dt', '', 'Última actualización'), nodo('dd', '', fecha(p.actualizado))); dl.append(r); }
+    if (p.nota) { const r = nodo('div'); r.append(nodo('dt', '', 'Nota de tu asesor'), nodo('dd', 'proc__nota', p.nota)); dl.append(r); }
     if (dl.children.length) card.append(dl);
+    // Carpeta del expediente (Google Drive): solo enlaces https; se abre en otra pestaña.
+    if (typeof p.carpeta === 'string' && /^https:\/\/\S+$/i.test(p.carpeta.trim())) {
+      const a = nodo('a', 'btn btn--line btn--sm proc__carpeta', 'Ver carpeta del expediente');
+      a.href = p.carpeta.trim(); a.target = '_blank'; a.rel = 'noopener noreferrer';
+      card.append(a);
+    }
     return card;
   }
 
